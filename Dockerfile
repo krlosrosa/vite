@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Instala apenas dependências necessárias
-RUN npm ci --omit=dev
+RUN npm i
 
 # Copia o restante do projeto
 COPY . .
