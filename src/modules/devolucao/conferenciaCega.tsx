@@ -183,12 +183,12 @@ export default function FormularioConferenciaCega() {
                   <h3 className="text-sm font-semibold text-orange-700">Dados do Lote</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <FormField
                     control={form.control}
                     name="data"
                     render={({ field }) => (
-                      <FormItem className="space-y-1">
+                      <FormItem className="space-y-1.5">
                         <FormLabel className="text-xs font-semibold">Data *</FormLabel>
                         <FormControl>
                           <div className="relative">
@@ -215,7 +215,7 @@ export default function FormularioConferenciaCega() {
                     render={({ field }) => {
                       const { ref, ...rest } = field
                       return (
-                        <FormItem className="space-y-1">
+                        <FormItem className="space-y-1.5">
                           <FormLabel className="text-xs font-semibold">SIF *</FormLabel>
                           <FormControl>
                             <div className="relative">
@@ -251,7 +251,7 @@ export default function FormularioConferenciaCega() {
                     render={({ field }) => {
                       const { ref, ...rest } = field
                       return (
-                        <FormItem className="space-y-1">
+                        <FormItem className="space-y-1.5">
                           <FormLabel className="text-xs font-semibold">Caixas</FormLabel>
                           <FormControl>
                             <div className="relative">
@@ -285,7 +285,7 @@ export default function FormularioConferenciaCega() {
                     render={({ field }) => {
                       const { ref, ...rest } = field
                       return (
-                        <FormItem className="space-y-1">
+                        <FormItem className="space-y-1.5">
                           <FormLabel className="text-xs font-semibold">Unidades</FormLabel>
                           <FormControl>
                             <div className="relative">
