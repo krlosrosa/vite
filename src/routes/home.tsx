@@ -1,4 +1,4 @@
-import logo from './logo.svg'
+import logo from '../logo.svg'
 import { Link } from '@tanstack/react-router' // importe o Link
 
 function App() {
