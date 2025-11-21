@@ -237,77 +237,79 @@ export default function FormularioConferenciaCega() {
                     }}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name="caixa"
-                    render={({ field }) => {
-                      const { ref, ...rest } = field
-                      return (
-                        <FormItem className="space-y-1.5">
-                          <FormLabel className="text-xs font-semibold">Caixas</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Input 
-                                ref={(el) => {
-                                  ref(el)
-                                  caixaRef.current = el
-                                }}
-                                placeholder="0" 
-                                inputMode="numeric" 
-                                className="h-10 text-sm border-orange-200 focus:border-orange-500" 
-                                enterKeyHint="next" 
-                                {...rest}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    e.preventDefault()
-                                    unidadeRef.current?.focus()
-                                  }
-                                }}
-                              />
-                            </div>
-                          </FormControl>
-                        </FormItem>
-                      )
-                    }}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="unidade"
-                    render={({ field }) => {
-                      const { ref, ...rest } = field
-                      return (
-                        <FormItem className="space-y-1.5">
-                          <FormLabel className="text-xs font-semibold">Unidades</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Input
-                                ref={(el) => {
-                                  ref(el)
-                                  unidadeRef.current = el
-                                }}
-                                placeholder="0"
-                                inputMode="numeric"
-                                autoComplete="one-time-code"
-                                enterKeyHint="done"
-                                className="h-10 text-sm border-orange-200 focus:border-orange-500"
-                                {...rest}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    e.preventDefault()
-                                    if (isFormValid) {
-                                      form.handleSubmit(onSubmit)()
+                  <div className="grid grid-cols-2 gap-3">
+                    <FormField
+                      control={form.control}
+                      name="caixa"
+                      render={({ field }) => {
+                        const { ref, ...rest } = field
+                        return (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-xs font-semibold">Caixas</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Input 
+                                  ref={(el) => {
+                                    ref(el)
+                                    caixaRef.current = el
+                                  }}
+                                  placeholder="0" 
+                                  inputMode="numeric" 
+                                  className="h-10 text-sm border-orange-200 focus:border-orange-500" 
+                                  enterKeyHint="next" 
+                                  {...rest}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                      e.preventDefault()
+                                      unidadeRef.current?.focus()
                                     }
-                                  }
-                                }}
-                                onFocus={(e) => e.currentTarget.select()}
-                              />
-                            </div>
-                          </FormControl>
-                        </FormItem>
-                      )
-                    }}
-                  />
+                                  }}
+                                />
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        )
+                      }}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="unidade"
+                      render={({ field }) => {
+                        const { ref, ...rest } = field
+                        return (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-xs font-semibold">Unidades</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Input
+                                  ref={(el) => {
+                                    ref(el)
+                                    unidadeRef.current = el
+                                  }}
+                                  placeholder="0"
+                                  inputMode="numeric"
+                                  autoComplete="one-time-code"
+                                  enterKeyHint="done"
+                                  className="h-10 text-sm border-orange-200 focus:border-orange-500"
+                                  {...rest}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                      e.preventDefault()
+                                      if (isFormValid) {
+                                        form.handleSubmit(onSubmit)()
+                                      }
+                                    }
+                                  }}
+                                  onFocus={(e) => e.currentTarget.select()}
+                                />
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        )
+                      }}
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
