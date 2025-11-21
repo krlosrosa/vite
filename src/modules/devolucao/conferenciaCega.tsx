@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { Input } from "@/_shared/components/ui/input"
 import {
@@ -10,10 +10,11 @@ import {
   FormLabel,
   FormMessage
 } from "@/_shared/components/ui/form"
-import { Separator } from "@/_shared/components/ui/separator"
 import { Skeleton } from "@/_shared/components/ui/skeleton"
-import { CheckCircle, ScanLine } from "lucide-react"
+import { CheckCircle, ScanLine, Calendar } from "lucide-react"
 import { Button } from "@/_shared/components/ui/button"
+import { Card, CardContent } from "@/_shared/components/ui/card"
+import { Badge } from "@/_shared/components/ui/badge"
 
 type ConferenciaForm = {
   sku: string
@@ -22,7 +23,6 @@ type ConferenciaForm = {
   caixa: string
   unidade: string
 }
-
 
 export default function FormularioConferenciaCega() {
   const form = useForm<ConferenciaForm>({
@@ -38,181 +38,309 @@ export default function FormularioConferenciaCega() {
 
   const skuRef = useRef<HTMLInputElement | null>(null)
   const sifRef = useRef<HTMLInputElement | null>(null)
+  const caixaRef = useRef<HTMLInputElement | null>(null)
   const unidadeRef = useRef<HTMLInputElement | null>(null)
-  const [descricaoBanco] = useState<string>("")
-  const [loadingDesc] = useState<boolean>(false)
+  const [descricaoBanco, setDescricaoBanco] = useState<string>("")
+  const [loadingDesc, setLoadingDesc] = useState<boolean>(false)
 
+  // Foco automático no SKU quando o componente carrega
+  useEffect(() => {
+    skuRef.current?.focus()
+  }, [])
+
+  // Simulação de busca de descrição quando o SKU muda
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "sku" && value.sku && value.sku.length >= 3) {
+        setLoadingDesc(true)
+        // Simula busca no banco
+        setTimeout(() => {
+          setDescricaoBanco("Produto de exemplo - Lote especial para distribuição")
+          setLoadingDesc(false)
+        }, 300)
+      } else if (name === "sku" && !value.sku) {
+        setDescricaoBanco("")
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [form.watch])
+
+  const onSubmit = (data: ConferenciaForm) => {
+    console.log("Dados do formulário:", data)
+    // Limpar formulário após envio
+    form.reset()
+    setDescricaoBanco("")
+    // Voltar o foco para o SKU
+    setTimeout(() => skuRef.current?.focus(), 100)
+  }
+
+  const isFormValid = descricaoBanco !== "" && 
+    form.getValues("sku") && 
+    form.getValues("data") && 
+    form.getValues("sif")
 
   return (
-    <div className="max-w-md mx-auto p-2 space-y-4 pb-28">
-      <Form {...form}>
-        <form className="space-y-4">
-          {/* SKU + descrição */}
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="sku"
-              render={({ field }) => {
-                const { ref, ...rest } = field
-                return (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                      <ScanLine className="h-4 w-4" /> Código SKU
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        ref={(el) => {
-                          ref(el)
-                          skuRef.current = el
-                        }}
-                        placeholder="Ex.: 789123456"
-                        autoFocus
-                        inputMode="numeric"
-                        autoComplete="off"
-                        enterKeyHint="next"
-                        className="h-14 text-lg"
-                        {...rest}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault()
-                            sifRef.current?.focus()
-                          }
-                        }}
-                        onFocus={(e) => e.currentTarget.select()}
-  
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
+    <div className="min-h-screen mb-8 from-blue-50 to-white p-3 pb-28">
+      {/* Header fixo */}
+      <div className="sticky top-0 bg-white/80 backdrop-blur-sm z-10 pb-3 pt-2">
+        <div className="text-center space-y-1">
+          <h1 className="text-xl font-bold text-gray-900">Conferência Cega</h1>
+          <p className="text-xs text-gray-600">Preencha os dados do produto</p>
+        </div>
+      </div>
 
-            {/* Descrição (somente leitura, vinda do banco) */}
-            <div>
-              <FormLabel>Descrição</FormLabel>
-              <div className="mt-1 rounded-md border bg-muted/30 p-2 min-h-[64px]">
-                {loadingDesc ? (
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-3/4" />
-                    <Skeleton className="h-4 w-2/3" />
-                    <Skeleton className="h-4 w-1/2" />
+      <div className="space-y-3 max-w-md mx-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            {/* SKU Field - O mais importante */}
+            <Card className="shadow-sm border-blue-100">
+              <CardContent className="p-3">
+                <FormField
+                  control={form.control}
+                  name="sku"
+                  render={({ field }) => {
+                    const { ref, ...rest } = field
+                    return (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="flex items-center gap-2 text-sm font-semibold text-blue-700">
+                          <ScanLine className="h-4 w-4" /> 
+                          Código SKU *
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              ref={(el) => {
+                                ref(el)
+                                skuRef.current = el
+                              }}
+                              placeholder="Digite ou escaneie o SKU"
+                              autoFocus
+                              inputMode="numeric"
+                              autoComplete="off"
+                              enterKeyHint="next"
+                              className="h-12 text-base pl-10 border-blue-300 focus:border-blue-500 bg-white"
+                              {...rest}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault()
+                                  // Pular para data no mobile (melhor UX)
+                                  const dataInput = document.querySelector('input[type="date"]') as HTMLInputElement
+                                  dataInput?.focus()
+                                }
+                              }}
+                              onFocus={(e) => e.currentTarget.select()}
+                            />
+                            <ScanLine className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500" />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )
+                  }}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Descrição - Aparece apenas quando tem conteúdo */}
+            {descricaoBanco && (
+              <Card className={`border-2 transition-all duration-200 shadow-sm ${
+                descricaoBanco ? "border-green-200 bg-green-50" : "border-gray-200"
+              }`}>
+                <CardContent className="p-3">
+                  <div className="flex items-start gap-2">
+                    <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                      ✓
+                    </Badge>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold text-green-800 mb-1">Produto Encontrado:</p>
+                      <p className="text-sm text-gray-800 leading-tight">
+                        {descricaoBanco}
+                      </p>
+                    </div>
                   </div>
-                ) : (
-                  <p className="text-xs text-foreground whitespace-pre-wrap leading-relaxed">
-                    {descricaoBanco || "—"}
-                  </p>
-                )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Loading skeleton só aparece quando loading */}
+            {loadingDesc && (
+              <Card className="border-gray-200 bg-gray-50">
+                <CardContent className="p-3">
+                  <div className="space-y-2">
+                    <Skeleton className="h-3 w-1/2" />
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-2/3" />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Campos do Lote - Grid compacto */}
+            <Card className="shadow-sm border-orange-100">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 mb-3">
+                  <Calendar className="h-4 w-4 text-orange-600" />
+                  <h3 className="text-sm font-semibold text-orange-700">Dados do Lote</h3>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2">
+                  <FormField
+                    control={form.control}
+                    name="data"
+                    render={({ field }) => (
+                      <FormItem className="space-y-1">
+                        <FormLabel className="text-xs font-semibold">Data *</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input 
+                              type="date" 
+                              className="h-10 text-sm border-orange-200 focus:border-orange-500" 
+                              {...field} 
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault()
+                                  sifRef.current?.focus()
+                                }
+                              }}
+                            />
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="sif"
+                    render={({ field }) => {
+                      const { ref, ...rest } = field
+                      return (
+                        <FormItem className="space-y-1">
+                          <FormLabel className="text-xs font-semibold">SIF *</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                ref={(el) => {
+                                  ref(el)
+                                  sifRef.current = el
+                                }}
+                                placeholder="SIF"
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                enterKeyHint="next"
+                                className="h-10 text-sm border-orange-200 focus:border-orange-500"
+                                {...rest}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault()
+                                    caixaRef.current?.focus()
+                                  }
+                                }}
+                                onFocus={(e) => e.currentTarget.select()}
+                              />
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      )
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="caixa"
+                    render={({ field }) => {
+                      const { ref, ...rest } = field
+                      return (
+                        <FormItem className="space-y-1">
+                          <FormLabel className="text-xs font-semibold">Caixas</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input 
+                                ref={(el) => {
+                                  ref(el)
+                                  caixaRef.current = el
+                                }}
+                                placeholder="0" 
+                                inputMode="numeric" 
+                                className="h-10 text-sm border-orange-200 focus:border-orange-500" 
+                                enterKeyHint="next" 
+                                {...rest}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault()
+                                    unidadeRef.current?.focus()
+                                  }
+                                }}
+                              />
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      )
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="unidade"
+                    render={({ field }) => {
+                      const { ref, ...rest } = field
+                      return (
+                        <FormItem className="space-y-1">
+                          <FormLabel className="text-xs font-semibold">Unidades</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                ref={(el) => {
+                                  ref(el)
+                                  unidadeRef.current = el
+                                }}
+                                placeholder="0"
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                enterKeyHint="done"
+                                className="h-10 text-sm border-orange-200 focus:border-orange-500"
+                                {...rest}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault()
+                                    if (isFormValid) {
+                                      form.handleSubmit(onSubmit)()
+                                    }
+                                  }
+                                }}
+                                onFocus={(e) => e.currentTarget.select()}
+                              />
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Botão Fixo na parte inferior */}
+            <div className="bottom-4 left-3 right-3 max-w-md mx-auto">
+              <Button 
+                type="submit" 
+                disabled={!isFormValid}
+                className="w-full h-14 text-base font-semibold shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+                size="lg"
+              >
+                <CheckCircle className="h-5 w-5 mr-2" /> 
+                {isFormValid ? "Confirmar" : "Preencha os campos obrigatórios"}
+              </Button>
+              
+              <div className="text-center mt-2">
+                <p className="text-xs text-gray-500">
+                  * Campos obrigatórios
+                </p>
               </div>
             </div>
-          </div>
-
-          <Separator />
-
-          {/* Dados do lote */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <FormField
-              control={form.control}
-              name="data"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data</FormLabel>
-                  <FormControl>
-                    <Input type="date" className="h-14 text-lg" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="sif"
-              render={({ field }) => {
-                const { ref, ...rest } = field
-                return (
-                  <FormItem>
-                    <FormLabel>SIF</FormLabel>
-                    <FormControl>
-                      <Input
-                        ref={(el) => {
-                          ref(el)
-                          sifRef.current = el
-                        }}
-                        placeholder="Ex.: 1234"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        enterKeyHint="next"
-                        className="h-14 text-lg"
-                        {...rest}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault()
-                            unidadeRef.current?.focus()
-                          }
-                        }}
-                        onFocus={(e) => e.currentTarget.select()}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-
-            <FormField
-              control={form.control}
-              name="caixa"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Caixas</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ex.: 10" inputMode="numeric" className="h-14 text-lg" enterKeyHint="next" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="unidade"
-              render={({ field }) => {
-                const { ref, ...rest } = field
-                return (
-                  <FormItem>
-                    <FormLabel>Unidades</FormLabel>
-                    <FormControl>
-                      <Input
-                        ref={(el) => {
-                          ref(el)
-                          unidadeRef.current = el
-                        }}
-                        placeholder="Ex.: 100"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        enterKeyHint="done"
-                        className="h-14 text-lg"
-                        {...rest}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault()
-                          }
-                        }}
-                        onFocus={(e) => e.currentTarget.select()}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-          </div>
-          <Button disabled={descricaoBanco === ''} type="submit" className="w-full h-12 text-base">
-            <CheckCircle className="h-4 w-4 mr-2" /> Confirmar
-          </Button>
-        </form>
-      </Form>
+          </form>
+        </Form>
+      </div>
     </div>
   )
 }
