@@ -1,9 +1,12 @@
 "use client"
 import { useState } from "react"
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/_shared/components/ui/sheet";
+import { SheetTitle } from "@/_shared/components/ui/sheet";
 import { Button } from "@/_shared/components/ui/button";
 import { Badge } from "@/_shared/components/ui/badge";
 import { AlertTriangle, Trash2, } from "lucide-react";
+import { Drawer } from "@/_shared/components/ui/drawer";
+import { DrawerTrigger } from "@/_shared/components/ui/drawer";
+import { DrawerContent } from "@/_shared/components/ui/drawer";
 
 export default function ItensAnomalia() {
   const [anomalias, setAnomalias] = useState<any[]>([])
@@ -11,10 +14,10 @@ export default function ItensAnomalia() {
   const remover = (id: number) => {
     setAnomalias((prev) => prev.filter((a) => a.id !== id))
   }
-  
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
+    <Drawer>
+      <DrawerTrigger asChild>
         <Button variant="ghost" className="h-12 flex flex-col items-center justify-center gap-1 text-xs">
           <div className="relative">
             <AlertTriangle className="h-5 w-5" />
@@ -24,11 +27,9 @@ export default function ItensAnomalia() {
           </div>
           Anomalias
         </Button>
-      </SheetTrigger>
-      <SheetContent side="bottom" className="pb-6 px-1 overflow-auto">
-        <SheetHeader>
-          <SheetTitle className="text-base">Anomalias registradas ({anomalias.length})</SheetTitle>
-        </SheetHeader>
+      </DrawerTrigger>
+      <DrawerContent className="pb-6 px-1 overflow-auto">
+        <SheetTitle className="text-base">Anomalias registradas ({anomalias.length})</SheetTitle>
         {anomalias.length === 0 ? (
           <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
         ) : (
@@ -52,7 +53,7 @@ export default function ItensAnomalia() {
             ))}
           </div>
         )}
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   )
 }
