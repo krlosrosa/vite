@@ -1,9 +1,11 @@
 "use client"
 import { Card, CardContent } from "@/_shared/components/ui/card"
-import { Navigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import {  Truck, RotateCcw } from "lucide-react"  
 
 export default function SelecionarProcesso() {
+
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-dvh bg-background">
@@ -33,7 +35,7 @@ export default function SelecionarProcesso() {
           role="button"
           tabIndex={0}
           className="border-muted-foreground/20 active:scale-[0.98] transition-all"
-          onClick={() => Navigate({ to: '/conferencia-cega' })}
+          onClick={() => navigate({ to: '/conferencia-cega' })}
         >
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
