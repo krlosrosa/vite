@@ -14,6 +14,7 @@ import reportWebVitals from './reportWebVitals.ts'
 
 import App from './routes/home.tsx'
 import Devolucao from './routes/devolucao.tsx'
+import ConferenciaCega from './routes/conferenciaCega.tsx'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -36,11 +37,18 @@ const aboutRoute = createRoute({
   path: '/devolucao',
   component: Devolucao,
 })
+
+const conferenciaCegaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/conferencia-cega',
+  component: ConferenciaCega,
+})
 // ------------------------
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  aboutRoute, // <-- registre a rota aqui
+  aboutRoute,
+  conferenciaCegaRoute,
 ])
 
 const router = createRouter({
