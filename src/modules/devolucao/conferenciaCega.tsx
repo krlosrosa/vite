@@ -191,7 +191,7 @@ export default function FormularioConferenciaCega() {
                       <FormItem className="space-y-1.5">
                         <FormLabel className="text-xs font-semibold">Data *</FormLabel>
                         <FormControl>
-                          <div className="relative">
+                          <div className="">
                             <Input 
                               type="date" 
                               className="h-10 text-sm border-orange-200 focus:border-orange-500" 
