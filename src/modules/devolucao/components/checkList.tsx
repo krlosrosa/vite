@@ -47,6 +47,7 @@ export default function CheckList() {
     if (!checklist) return
 
     try {
+      alert('Checklist salvo com sucesso!')
       console.log("Checklist salvo localmente:", checklist)
       // Aqui você pode salvar no localStorage ou indexedDB
       localStorage.setItem('checklist', JSON.stringify(checklist))
