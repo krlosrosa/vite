@@ -1,7 +1,8 @@
 "use client"
 import { Badge } from "@/_shared/components/ui/badge"
 import { Button } from "@/_shared/components/ui/button"
-import { AlertTriangle, ListChecks } from "lucide-react"
+import { ListChecks } from "lucide-react"
+import ItensAnomalia from "./listaAnomalias"
 export default function BottomMenu() {
   return (
     <div className="fixed bottom-0 inset-x-0 z-20">
@@ -20,15 +21,7 @@ export default function BottomMenu() {
         </Button>
           </div>
           {/* Anomalias sheet */}
-          <Button variant="ghost" className="h-12 flex flex-col items-center justify-center gap-1 text-xs">
-            <div className="relative">
-              <AlertTriangle className="h-5 w-5" />
-              <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 min-w-5 px-1 py-0 text-[10px] leading-5 rounded-full">
-                {2}
-              </Badge>
-            </div>
-            Anomalias
-          </Button>
+          <ItensAnomalia/>
 
           {/* Finalizar demanda */}
           <Button className="col-span-2 h-12 text-sm shadow-md">Finalizar</Button>
