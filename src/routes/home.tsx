@@ -2,16 +2,16 @@
 import { Link } from '@tanstack/react-router'
 import { Card, CardContent, CardTitle } from '@/_shared/components/ui/card'
 import { Button } from '@/_shared/components/ui/button'
-import { Undo } from 'lucide-react' // Ícone de devolução
-import { HeaderMobile } from '@/_shared/components/headerMobile'  
+import { ArrowLeft } from 'lucide-react'
+import { HeaderMobile } from '@/_shared/components/headerMobile'    
 
 export function Home() {
   const menuItems = [
     {
       title: "Devoluções",
-      description: "Processo de devolução de mercadorias",
+      description: "Processo completo de devolução de mercadorias",
       href: "/devolucao/demandas",
-      icon: Undo, // Ícone mais apropriado para devolução
+      icon: ArrowLeft,
       gradient: "from-primary to-primary/90",
       buttonClass: "bg-white text-primary hover:bg-white/90"
     }
@@ -27,14 +27,12 @@ export function Home() {
 
       {/* Main Content */}
       <main className="px-4 py-6">
-        {/* Welcome Section */}
-
-        {/* Menu - Apenas Devolução */}
+        {/* Menu Grid */}
         <div className="space-y-4">
           {menuItems.map((item, index) => (
             <Card 
               key={index}
-              className={`group hover:shadow-xl transition-all duration-300 border-0 ${item.gradient} shadow-lg hover:shadow-primary/20`}
+              className={`group hover:shadow-xl transition-all duration-300 border-0 bg-linear-to-r ${item.gradient} shadow-lg hover:shadow-primary/20`}
             >
               <Link to={item.href}>
                 <CardContent className="p-4">
