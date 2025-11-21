@@ -81,19 +81,11 @@ export default function FormularioConferenciaCega() {
 
   return (
     <div className="min-h-screen mb-8 from-blue-50 to-white p-3 pb-28">
-      {/* Header fixo */}
-      <div className="sticky top-0 bg-white/80 backdrop-blur-sm z-10 pb-3 pt-2">
-        <div className="text-center space-y-1">
-          <h1 className="text-xl font-bold text-gray-900">Conferência Cega</h1>
-          <p className="text-xs text-gray-600">Preencha os dados do produto</p>
-        </div>
-      </div>
-
       <div className="space-y-3 max-w-md mx-auto">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             {/* SKU Field - O mais importante */}
-            <Card className="shadow-sm border-blue-100">
+            <Card className="shadow-sm py-1 border-blue-100">
               <CardContent className="p-3">
                 <FormField
                   control={form.control}
@@ -143,7 +135,7 @@ export default function FormularioConferenciaCega() {
 
             {/* Descrição - Aparece apenas quando tem conteúdo */}
             {descricaoBanco && (
-              <Card className={`border-2 transition-all duration-200 shadow-sm ${
+              <Card className={`border-2 transition-all py-1 duration-200 shadow-sm ${
                 descricaoBanco ? "border-green-200 bg-green-50" : "border-gray-200"
               }`}>
                 <CardContent className="p-3">
@@ -164,7 +156,7 @@ export default function FormularioConferenciaCega() {
 
             {/* Loading skeleton só aparece quando loading */}
             {loadingDesc && (
-              <Card className="border-gray-200 bg-gray-50">
+              <Card className="border-gray-200 py-1 bg-gray-50">
                 <CardContent className="p-3">
                   <div className="space-y-2">
                     <Skeleton className="h-3 w-1/2" />
@@ -176,14 +168,14 @@ export default function FormularioConferenciaCega() {
             )}
 
             {/* Campos do Lote - Grid compacto */}
-            <Card className="shadow-sm border-orange-100">
+            <Card className="shadow-sm py-1 border-orange-100">
               <CardContent className="p-3">
                 <div className="flex items-center gap-2 mb-3">
                   <Calendar className="h-4 w-4 text-orange-600" />
                   <h3 className="text-sm font-semibold text-orange-700">Dados do Lote</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-3">
                   <FormField
                     control={form.control}
                     name="data"
