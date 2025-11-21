@@ -1,4 +1,5 @@
-import { ListaDemandasZodDtoItemStatus, type DemandaItem } from "@/modules/devolucao/types/demandaItem";
+import { ListaDemandasZodDtoItemStatus, TypeDemanda } from "@/modules/devolucao/types/types";
+import type { DemandaItem } from "@/modules/devolucao/types/types";
 
 export const demandas: DemandaItem[] = [
   {
@@ -13,6 +14,7 @@ export const demandas: DemandaItem[] = [
     cargaSegregada: true,
     retornoPalete: true,
     quantidadePaletes: 10,
+    type: TypeDemanda.DEVOLUCAO,
   },
   {
     id: 2,
@@ -26,6 +28,7 @@ export const demandas: DemandaItem[] = [
     cargaSegregada: false,
     retornoPalete: false,
     quantidadePaletes: 5,
+    type: TypeDemanda.REENTREGA,
   },
   {
     id: 3,
@@ -39,5 +42,6 @@ export const demandas: DemandaItem[] = [
     cargaSegregada: true,
     retornoPalete: true,
     quantidadePaletes: 15,
+    type: TypeDemanda.AMBOS,
   },
 ]

@@ -5,6 +5,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/_shared/c
 import { Button } from "@/_shared/components/ui/button";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Badge } from "@/_shared/components/ui/badge";
+import { useDevolucaoStore } from "../stores/slices";
 
 type StatusDemanda = 'andamento' | 'nao_iniciadas';
 
@@ -22,11 +23,11 @@ export default function ListaDemanda() {
   };
 
   // Filtrar demandas por status (exemplo - ajuste conforme sua estrutura de dados)
-  const demandasEmAndamento = demandas.filter(demanda => 
+  const demandasEmAndamento = demandas.filter(demanda =>
     demanda.status === 'EM_CONFERENCIA'
   );
-  
-  const demandasNaoIniciadas = demandas.filter(demanda => 
+
+  const demandasNaoIniciadas = demandas.filter(demanda =>
     demanda.status === 'AGUARDANDO_CONFERENCIA'
   );
 
@@ -47,18 +48,22 @@ export default function ListaDemanda() {
     }
   ];
 
+  const demanda = useDevolucaoStore((s) => s.demanda);
+
+
   return (
     <div className="space-y-3 p-2 w-full">
+      <pre>{JSON.stringify(demanda, null, 2)}</pre>
       {sections.map((section) => (
-        <Collapsible 
+        <Collapsible
           key={section.key}
           open={section.isOpen}
           onOpenChange={() => toggleSection(section.key)}
           className="w-full border rounded-lg bg-card"
         >
           <CollapsibleTrigger asChild>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="w-full justify-between p-4 hover:bg-muted/50"
             >
               <div className="flex h-24 items-center gap-2">
@@ -74,7 +79,7 @@ export default function ListaDemanda() {
               )}
             </Button>
           </CollapsibleTrigger>
-          
+
           <CollapsibleContent className="px-2 pb-3">
             <div className="space-y-2 mt-2">
               {section.demandas.length > 0 ? (

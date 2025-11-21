@@ -14,6 +14,8 @@ import reportWebVitals from './reportWebVitals.ts'
 
 import { Home } from './routes/home.tsx'
 import Devolucao from './routes/devolucao.tsx'
+import CheckList from './modules/devolucao/components/checkList.tsx'
+import Reentrega from './modules/devolucao/components/reentrega.tsx'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -37,11 +39,23 @@ const devolucaoRoute = createRoute({
   component: Devolucao,
 })
 
-// ------------------------
+const checkListRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/devolucao/checklist',
+  component: CheckList,
+})
 
+// ------------------------
+const reentregaRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/devolucao/reentrega',
+  component: Reentrega,
+})
 const routeTree = rootRoute.addChildren([
   indexRoute,
   devolucaoRoute,
+  checkListRoute,
+  reentregaRoute,
 ])
 
 const router = createRouter({
@@ -52,6 +66,8 @@ const router = createRouter({
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
 })
+
+
 
 declare module '@tanstack/react-router' {
   interface Register {

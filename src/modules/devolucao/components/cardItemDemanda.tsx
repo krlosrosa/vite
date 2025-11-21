@@ -1,10 +1,11 @@
-'use client'
 import { Button } from "@/_shared/components/ui/button";
 import { Card, CardContent } from "@/_shared/components/ui/card";
 import { Badge } from "@/_shared/components/ui/badge";
 import { Calendar, Truck, Warehouse, User } from "lucide-react";
-import type { DemandaItem } from "../types/demandaItem";
 import { cn } from "@/_shared/lib/utils";
+import { useDevolucaoStore } from "../stores/slices";
+import type { DemandaItem } from "../types/types";
+import { useRouter } from "@tanstack/react-router";
 
 interface CardItemDemandaProps {
   demanda: DemandaItem;
@@ -12,25 +13,31 @@ interface CardItemDemandaProps {
   onIniciar?: (demanda: DemandaItem) => void;
 }
 
+
+
+const statusConfig = {
+  AGUARDANDO_CONFERENCIA: { 
+    label: "Aguardando Conferência", 
+    color: "text-orange-600 bg-orange-50 border-orange-200" 
+  },
+  EM_CONFERENCIA: { 
+    label: "Em Conferência", 
+    color: "text-blue-600 bg-blue-50 border-blue-200" 
+  },
+  CONCLUIDA: { 
+    label: "Concluída", 
+    color: "text-green-600 bg-green-50 border-green-200" 
+  },
+  CANCELADA: { 
+    label: "Cancelada", 
+    color: "text-red-600 bg-red-50 border-red-200" 
+  }
+};
+
 export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDemandaProps) {
-  const statusConfig = {
-    AGUARDANDO_CONFERENCIA: { 
-      label: "Aguardando Conferência", 
-      color: "text-orange-600 bg-orange-50 border-orange-200" 
-    },
-    EM_CONFERENCIA: { 
-      label: "Em Conferência", 
-      color: "text-blue-600 bg-blue-50 border-blue-200" 
-    },
-    CONCLUIDA: { 
-      label: "Concluída", 
-      color: "text-green-600 bg-green-50 border-green-200" 
-    },
-    CANCELADA: { 
-      label: "Cancelada", 
-      color: "text-red-600 bg-red-50 border-red-200" 
-    }
-  };
+  const setDemanda = useDevolucaoStore((s) => s.setDemanda);
+  const step = useDevolucaoStore((s) => s.demanda?.step);
+  const router = useRouter();
 
   const currentStatus = statusConfig[demanda.status as keyof typeof statusConfig] || statusConfig.AGUARDANDO_CONFERENCIA;
 
@@ -42,7 +49,13 @@ export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDem
   const currentButton = buttonConfig[demanda.status as keyof typeof buttonConfig];
 
   const handleAction = () => {
-    currentButton?.action?.(demanda);
+    let currentStep: number = step || 1;
+     if(step === null) {
+      currentStep = 1;
+     }
+      setDemanda(demanda, currentStep);
+      router.navigate({ to: '/devolucao/checklist'})
+
   };
 
   const formatDate = (dateString: string) => {
