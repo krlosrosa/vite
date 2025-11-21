@@ -80,7 +80,7 @@ export default function FormularioConferenciaCega() {
     form.getValues("sif")
 
   return (
-    <div className="min-h-screen mb-8 from-blue-50 to-white p-3 pb-28">
+    <div className="from-blue-50 to-white p-3 pb-28">
       <div className="space-y-3 max-w-md mx-auto">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
