@@ -315,17 +315,18 @@ export default function FormularioConferenciaCega() {
             </Card>
 
             {/* Botão para adicionar anomalia - Sutil */}
-            <div className="flex justify-center pt-1">
+            <div className="flex justify-center pt-2 pb-1">
               <Button
                 type="button"
                 variant="ghost"
-                className="text-xs text-gray-500 hover:text-gray-700 h-auto py-1 px-2"
+                size="sm"
+                className="text-xs text-gray-400 hover:text-gray-600 h-auto py-1 px-2 font-normal"
                 onClick={() => {
                   // TODO: Implementar lógica para adicionar anomalia
                   console.log("Adicionar anomalia")
                 }}
               >
-                <AlertCircle className="h-3 w-3 mr-1.5" />
+                <AlertCircle className="h-3 w-3 mr-1.5 opacity-70" />
                 Adicionar anomalia
               </Button>
             </div>
