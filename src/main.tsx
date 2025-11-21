@@ -12,8 +12,8 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import App from './App.tsx'
-import About from './About.tsx' // <-- importe o componente da página About
+import App from './routes/home.tsx'
+import Devolucao from './routes/devolucao.tsx'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -33,8 +33,8 @@ const indexRoute = createRoute({
 // --- NOVA ROTA ABOUT ---
 const aboutRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/about',
-  component: About,
+  path: '/devolucao',
+  component: Devolucao,
 })
 // ------------------------
 

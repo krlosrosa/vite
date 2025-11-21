@@ -34,7 +34,7 @@ function App() {
 
         {/* Botão para ir para /about */}
         <Link
-          to="/about"
+          to="/devolucao"
           className="mt-4 px-4 py-2 rounded-xl bg-[#61dafb] text-black hover:bg-[#4bb3d6] transition"
         >
           Ir para About

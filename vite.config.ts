@@ -1,3 +1,4 @@
+import path from "path"
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import viteReact from '@vitejs/plugin-react'
@@ -19,6 +20,7 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,svg}']
     }
   })],
+  
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
