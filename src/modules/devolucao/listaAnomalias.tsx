@@ -1,12 +1,13 @@
 "use client"
 import { useState } from "react"
-import { SheetTitle } from "@/_shared/components/ui/sheet";
 import { Button } from "@/_shared/components/ui/button";
 import { Badge } from "@/_shared/components/ui/badge";
 import { AlertTriangle, Trash2, } from "lucide-react";
 import { Drawer } from "@/_shared/components/ui/drawer";
 import { DrawerTrigger } from "@/_shared/components/ui/drawer";
 import { DrawerContent } from "@/_shared/components/ui/drawer";
+import { DrawerHeader } from "@/_shared/components/ui/drawer";
+import { DrawerTitle } from "@/_shared/components/ui/drawer";
 
 export default function ItensAnomalia() {
   const [anomalias, setAnomalias] = useState<any[]>([])
@@ -16,7 +17,7 @@ export default function ItensAnomalia() {
   }
 
   return (
-    <Drawer>
+    <Drawer activeSnapPoint={400} direction="bottom">
       <DrawerTrigger asChild>
         <Button variant="ghost" className="h-12 flex flex-col items-center justify-center gap-1 text-xs">
           <div className="relative">
@@ -28,10 +29,42 @@ export default function ItensAnomalia() {
           Anomalias
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="pb-6 px-1 overflow-auto">
-        <SheetTitle className="text-base">Anomalias registradas ({anomalias.length})</SheetTitle>
+      <DrawerContent className="pb-32 px-1 overflow-auto rounded-lg border">
+      <DrawerHeader>
+            <DrawerTitle>Anomalias registradas ({anomalias.length})</DrawerTitle>
+          </DrawerHeader>
         {anomalias.length === 0 ? (
-          <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+          <div>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+            <p className="text-sm text-muted-foreground mt-4">Nenhuma anomalia registrada</p>
+
+          </div>
         ) : (
           <div className="mt-3 space-y-2">
             {anomalias.map((a, idx) => (
