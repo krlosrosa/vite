@@ -1,10 +1,13 @@
-import SelecionarProcesso from "@/modules/devolucao/selectType";
+import { HeaderMobile } from "@/_shared/components/headerMobile";
+import ListaDemanda from "@/modules/devolucao/components/listaDemanda";
 
 export default function Devolucao() {
   return (
     <div>
-      <SelecionarProcesso />
-
+      <HeaderMobile
+        title="Devolução"
+      />
+      <ListaDemanda />
     </div>
   )
 }

@@ -1,0 +1,43 @@
+import { ListaDemandasZodDtoItemStatus, type DemandaItem } from "@/modules/devolucao/types/demandaItem";
+
+export const demandas: DemandaItem[] = [
+  {
+    id: 1,
+    placa: 'ABC-1234',
+    motorista: 'João da Silva',
+    data: '2025-01-01',
+    conferenteId: '1234567890',
+    doca: '45',
+    status: ListaDemandasZodDtoItemStatus.EM_CONFERENCIA,
+    transportadora: 'Transportadora ABC',
+    cargaSegregada: true,
+    retornoPalete: true,
+    quantidadePaletes: 10,
+  },
+  {
+    id: 2,
+    placa: 'DEF-5678',
+    motorista: 'Maria Oliveira',
+    data: '2025-01-02',
+    conferenteId: '0987654321',
+    doca: '46',
+    status: ListaDemandasZodDtoItemStatus.AGUARDANDO_CONFERENCIA,
+    transportadora: 'Transportadora DEF',
+    cargaSegregada: false,
+    retornoPalete: false,
+    quantidadePaletes: 5,
+  },
+  {
+    id: 3,
+    placa: 'GHI-9012',
+    motorista: 'Pedro Santos',
+    data: '2025-01-03',
+    conferenteId: '3210987654',
+    doca: '47',
+    status: ListaDemandasZodDtoItemStatus.AGUARDANDO_CONFERENCIA,
+    transportadora: 'Transportadora GHI',
+    cargaSegregada: true,
+    retornoPalete: true,
+    quantidadePaletes: 15,
+  },
+]

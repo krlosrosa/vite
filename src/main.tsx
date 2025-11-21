@@ -12,9 +12,8 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import App from './routes/home.tsx'
+import { Home } from './routes/home.tsx'
 import Devolucao from './routes/devolucao.tsx'
-import ConferenciaCega from './routes/conferenciaCega.tsx'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -28,27 +27,21 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: App,
+  component: Home,
 })
 
 // --- NOVA ROTA ABOUT ---
-const aboutRoute = createRoute({
+const devolucaoRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/devolucao',
+  path: '/devolucao/demandas',
   component: Devolucao,
 })
 
-const conferenciaCegaRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/conferencia-cega',
-  component: ConferenciaCega,
-})
 // ------------------------
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  aboutRoute,
-  conferenciaCegaRoute,
+  devolucaoRoute,
 ])
 
 const router = createRouter({

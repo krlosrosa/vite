@@ -1,47 +1,68 @@
-import logo from '../logo.svg'
-import { Link } from '@tanstack/react-router' // importe o Link
+// components/HomeMobile.tsx
+import { Link } from '@tanstack/react-router'
+import { Card, CardContent, CardTitle } from '@/_shared/components/ui/card'
+import { Button } from '@/_shared/components/ui/button'
+import { Undo } from 'lucide-react' // Ícone de devolução
+import { HeaderMobile } from '@/_shared/components/headerMobile'  
 
-function App() {
+export function Home() {
+  const menuItems = [
+    {
+      title: "Devoluções",
+      description: "Processo de devolução de mercadorias",
+      href: "/devolucao/demandas",
+      icon: Undo, // Ícone mais apropriado para devolução
+      gradient: "from-primary to-primary/90",
+      buttonClass: "bg-white text-primary hover:bg-white/90"
+    }
+  ]
+
   return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-        <img
-          src={logo}
-          className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-20">
+      {/* Header Mobile - sem botão de voltar na home */}
+      <HeaderMobile 
+        title="Operações do Armazém" 
+        showBackButton={false}
+      />
 
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      {/* Main Content */}
+      <main className="px-4 py-6">
+        {/* Welcome Section */}
 
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
-
-        {/* Botão para ir para /about */}
-        <Link
-          to="/devolucao"
-          className="mt-4 px-4 py-2 rounded-xl bg-[#61dafb] text-black hover:bg-[#4bb3d6] transition"
-        >
-          Ir para About
-        </Link>
-      </header>
+        {/* Menu - Apenas Devolução */}
+        <div className="space-y-4">
+          {menuItems.map((item, index) => (
+            <Card 
+              key={index}
+              className={`group hover:shadow-xl transition-all duration-300 border-0 ${item.gradient} shadow-lg hover:shadow-primary/20`}
+            >
+              <Link to={item.href}>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                      <item.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <CardTitle className="text-lg font-bold text-white mb-1">
+                        {item.title}
+                      </CardTitle>
+                      <p className="text-white/90 text-xs mb-3">
+                        {item.description}
+                      </p>
+                      <Button 
+                        size="sm" 
+                        className={`${item.buttonClass} font-medium px-4 py-1 rounded-lg text-sm`}
+                      >
+                        Acessar
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Link>
+            </Card>
+          ))}
+        </div>
+      </main>
     </div>
   )
 }
-
-export default App
