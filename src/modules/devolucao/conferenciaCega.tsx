@@ -220,7 +220,7 @@ export default function FormularioConferenciaCega() {
                                 inputMode="numeric"
                                 autoComplete="one-time-code"
                                 enterKeyHint="next"
-                                className="h-10 text-sm border-orange-200 focus:border-orange-500"
+                                className="h-10 text-base border-orange-200 focus:border-orange-500"
                                 {...rest}
                                 onKeyDown={(e) => {
                                   if (e.key === "Enter") {
@@ -255,7 +255,7 @@ export default function FormularioConferenciaCega() {
                                   }}
                                   placeholder="0" 
                                   inputMode="numeric" 
-                                  className="h-10 text-sm border-orange-200 focus:border-orange-500" 
+                                  className="h-10 text-base border-orange-200 focus:border-orange-500" 
                                   enterKeyHint="next" 
                                   {...rest}
                                   onKeyDown={(e) => {
@@ -291,7 +291,7 @@ export default function FormularioConferenciaCega() {
                                   inputMode="numeric"
                                   autoComplete="one-time-code"
                                   enterKeyHint="done"
-                                  className="h-10 text-sm border-orange-200 focus:border-orange-500"
+                                  className="h-10 text-base border-orange-200 focus:border-orange-500"
                                   {...rest}
                                   onKeyDown={(e) => {
                                     if (e.key === "Enter") {
