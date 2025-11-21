@@ -11,7 +11,7 @@ import {
   FormMessage
 } from "@/_shared/components/ui/form"
 import { Skeleton } from "@/_shared/components/ui/skeleton"
-import { CheckCircle, ScanLine, Calendar } from "lucide-react"
+import { CheckCircle, ScanLine, Calendar, AlertCircle } from "lucide-react"
 import { Button } from "@/_shared/components/ui/button"
 import { Card, CardContent } from "@/_shared/components/ui/card"
 import { Badge } from "@/_shared/components/ui/badge"
@@ -313,6 +313,22 @@ export default function FormularioConferenciaCega() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Botão para adicionar anomalia - Sutil */}
+            <div className="flex justify-center pt-1">
+              <Button
+                type="button"
+                variant="ghost"
+                className="text-xs text-gray-500 hover:text-gray-700 h-auto py-1 px-2"
+                onClick={() => {
+                  // TODO: Implementar lógica para adicionar anomalia
+                  console.log("Adicionar anomalia")
+                }}
+              >
+                <AlertCircle className="h-3 w-3 mr-1.5" />
+                Adicionar anomalia
+              </Button>
+            </div>
 
             {/* Botão Fixo na parte inferior */}
             <div className="bottom-4 left-3 right-3 max-w-md mx-auto">
