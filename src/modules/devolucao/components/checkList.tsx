@@ -13,7 +13,7 @@ import { useRouter } from "@tanstack/react-router"
 
 type Step = 1 | 2 | 3 | 4
 
-export default function CheckList() {
+export default function CheckList({ id }: { id: string }) {
   const { 
     checklist, 
     setChecklist, 
@@ -29,7 +29,7 @@ export default function CheckList() {
   useEffect(() => {
     if (!checklist) {
       setChecklist({
-        idDemanda: 0,
+        idDemanda: Number(id),
         fotoBauAberto: null,
         fotoBauFechado: null,
         temperaturaProduto: undefined,

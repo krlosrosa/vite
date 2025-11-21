@@ -54,7 +54,7 @@ export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDem
       currentStep = 1;
      }
       setDemanda(demanda, currentStep);
-      router.navigate({ to: '/devolucao/checklist'})
+      router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
 
   };
 
