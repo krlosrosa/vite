@@ -2,6 +2,7 @@
 import { Card, CardContent } from "@/_shared/components/ui/card"
 import { useNavigate } from "@tanstack/react-router"
 import {  Truck, RotateCcw } from "lucide-react"  
+import ImageGallery from "./uploadImage"
 
 export default function SelecionarProcesso() {
 
@@ -11,6 +12,7 @@ export default function SelecionarProcesso() {
     <div className="min-h-dvh bg-background">
       {/* Content */}
       <div className="mx-auto max-w-md p-4 space-y-3">
+      <ImageGallery />
         {/* Reentrega */}
         <Card
           role="button"
