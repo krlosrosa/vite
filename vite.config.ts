@@ -8,7 +8,13 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  preview: {
+    allowedHosts: ["pwa-vite.lilog.app"],
+    host: true, // permite receber conexões externas
+    port: 3000
+  },
   plugins: [devtools(), viteReact(), tailwindcss(), VitePWA({
+    
     registerType: 'autoUpdate', workbox: {
       globPatterns: ['**/*.{js,css,html,ico,png,svg}']
     }
