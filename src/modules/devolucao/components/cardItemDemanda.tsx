@@ -36,6 +36,7 @@ const statusConfig = {
 
 export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDemandaProps) {
   const setDemanda = useDevolucaoStore((s) => s.setDemanda);
+  const demandaStore = useDevolucaoStore((s) => s.demanda);
   const step = useDevolucaoStore((s) => s.demanda?.step);
   const router = useRouter();
 
@@ -53,9 +54,18 @@ export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDem
      if(step === null) {
       currentStep = 1;
      }
-      setDemanda(demanda, currentStep);
-      router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
 
+     if(demandaStore){
+      if(demandaStore.id === demanda.id) {
+        router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
+      }else {
+        setDemanda(demanda, currentStep);
+        router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
+      }
+     } else{
+       setDemanda(demanda, currentStep);
+       router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
+     }
   };
 
   const formatDate = (dateString: string) => {
