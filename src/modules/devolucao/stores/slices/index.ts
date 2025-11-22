@@ -9,6 +9,7 @@ import { createChecklistSlice } from './checkList.slice'
 import { createConferenciaSlice } from './conferencia.slice'
 import { createAnomaliaSlice } from './anomalia.slice'
 import { idbStorage } from '../dexieStorage'
+import { createItemContabilSlice } from './itemContabil'
 
 export const useDevolucaoStore = create<AppState>()(
   persist(
@@ -17,6 +18,7 @@ export const useDevolucaoStore = create<AppState>()(
       ...createChecklistSlice(set, get, api),
       ...createConferenciaSlice(set, get, api),
       ...createAnomaliaSlice(set, get, api),
+      ...createItemContabilSlice(set, get, api),
     }),
     {
       name: 'demand-inspections-storage',

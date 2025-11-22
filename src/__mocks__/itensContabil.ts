@@ -1,0 +1,48 @@
+import type { ItemContabil } from "@/modules/devolucao/types/types";
+
+export const itensContabil: ItemContabil[] = [
+  {
+    tipo: 'devolucao',
+    id: 1,
+    sku: '1234567890',
+    descricao: 'Produto 1',
+    quantidadeCaixas: 10,
+    quantidadeUnidades: 100,
+    lote: '1234567890',
+    fabricacao: '2025-01-01',
+    validado: true,
+  },
+  {
+    tipo: 'reentrega',
+    id: 2,
+    sku: '1234567891',
+    descricao: 'Produto 2',
+    quantidadeCaixas: 20,
+    quantidadeUnidades: 200,
+    lote: '1234567891',
+    fabricacao: '2025-01-01',
+    validado: false,
+  },
+  {
+    tipo: 'reentrega',
+    id: 3,
+    sku: '1234567892',
+    descricao: 'Produto 3',
+    quantidadeCaixas: 30,
+    quantidadeUnidades: 300,
+    lote: '1234567892',
+    fabricacao: '2025-01-01',
+    validado: false,
+  },
+  {
+    tipo: 'devolucao',
+    id: 4,
+    sku: '1234567893',
+    descricao: 'Produto 4',
+    quantidadeCaixas: 40,
+    quantidadeUnidades: 400,
+    lote: '1234567893',
+    fabricacao: '2025-01-01',
+    validado: false,
+  },
+]

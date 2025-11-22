@@ -114,5 +114,25 @@ export type ChecklistSlice = {
   syncChecklist: () => void
 }
 
+// Item Contabil
+export interface ItemContabil {
+  tipo: 'devolucao' | 'reentrega';   
+  id: number;
+  sku: string;
+  descricao: string;
+  quantidadeCaixas: number;
+  quantidadeUnidades: number; 
+  lote?: string;
+  fabricacao?: string;
+  validado?: boolean;
+}
+
+export type ItemContabilSlice = {
+  itens: ItemContabil[];
+  syncStatus?: SyncStatus;
+  setItensContabil: (itens: ItemContabil[]) => void;
+  getItemById: (sku: string) => ItemContabil | undefined; // <- aqui!
+}
+
 // Store unificada
-export type AppState = DemandaSlice & ChecklistSlice & ConferenciaSlice & AnomaliaSlice
+export type AppState = DemandaSlice & ChecklistSlice & ConferenciaSlice & AnomaliaSlice & ItemContabilSlice

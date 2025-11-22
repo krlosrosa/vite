@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Button } from "@/_shared/components/ui/button"
 import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
 import { Textarea } from "@/_shared/components/ui/textarea"
-import type { ChecklistItem } from "../../types/types"
+import { TypeDemanda, type ChecklistItem } from "../../types/types"
 import { Plus, X, Camera, AlertTriangle } from "lucide-react"
 
 type AnomaliaProps = {
@@ -16,7 +16,19 @@ type AnomaliaProps = {
 export default function Anomalia({ setCurrentStep, setStep }: AnomaliaProps) {
 
   const [currentAnomalia, setCurrentAnomalia] = useState("")
-  const { checklist, updateChecklist } = useDevolucaoStore()
+  const { checklist, updateChecklist, demanda } = useDevolucaoStore()
+
+
+  function handleSubmit() {
+    if(!demanda) return
+    if (!checklist) return
+    if(demanda?.type !== TypeDemanda.DEVOLUCAO) {
+      setStep('reentrega')
+    } else {
+      setStep('devolucao')
+    }
+
+  }
 
   const handleAddAnomalia = () => {
     if (currentAnomalia.trim() && checklist) {
@@ -228,7 +240,7 @@ export default function Anomalia({ setCurrentStep, setStep }: AnomaliaProps) {
       </div>
       <div className="space-y-2 w-full">
         <Button className="w-full" onClick={() => setCurrentStep('temperatura')}>Voltar</Button>
-        <Button className="w-full" onClick={() => setStep('reentrega')}>Próximo</Button>
+        <Button className="w-full" onClick={handleSubmit}>Próximo</Button>
       </div>
     </div>
   )

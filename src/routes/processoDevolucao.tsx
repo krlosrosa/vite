@@ -3,6 +3,7 @@ import { useParams, useRouter } from "@tanstack/react-router";
 import CheckListDevolucao from "@/modules/devolucao/components/checkList/index";
 import { HeaderMobile } from "@/_shared/components/headerMobile";
 import { useState } from "react";
+import ValidacaoReentrega from "@/modules/devolucao/components/validacaoReentrega";
 
 export default function ProcessoDevolucao() {
 
@@ -35,7 +36,7 @@ export default function ProcessoDevolucao() {
             showBackButton={true}
             backButtonAction={() => router.history.back()}
           />
-          <p>Reentrega</p>
+          <ValidacaoReentrega setStep={setCurrentStep} id={id} />
         </TabsContent>
         <TabsContent value="devolucao">
           <p>Conferencia</p>

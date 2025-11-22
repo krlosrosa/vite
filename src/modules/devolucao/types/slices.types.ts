@@ -82,3 +82,5 @@ export interface ConferenciaActions {
     setConferenciaStatus: (idDemanda: number, status: SyncStatus) => void; // Ação para o Sync Service
 }
 export type ConferenciaSlice = ConferenciaState & ConferenciaActions;
+
+// Item Contabil
