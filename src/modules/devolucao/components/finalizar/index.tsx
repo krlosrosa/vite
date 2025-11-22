@@ -40,11 +40,17 @@ type ItemContabil = {
   validado: boolean;
 }
 
+type ItemDivergencia = {
+  sku: string;
+  descricao: string;
+  tipoDivergencia: 'EXCESSO_FISICO' | 'FALTA_FISICO' | 'PRODUTO_NAO_LISTADO';
+}
+
 type DiferencaFisicoContabil = {
   totalItensFisico: number;
   totalItensContabil: number;
   temDiferenca: boolean;
-  itensComDivergencia: number;
+  itensComDivergencia: ItemDivergencia[];
 }
 
 type Props = {
@@ -94,12 +100,30 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
     { id: 7, sku: "PROD007", descricao: "Sal Refinado 1kg", validado: true }
   ];
 
-  // Mock da diferença entre físico e contábil
+  // Mock dos itens com divergência
+  const divergenciasMock: ItemDivergencia[] = [
+    { 
+      sku: "PROD001", 
+      descricao: "Arroz Integral 1kg", 
+      tipoDivergencia: "EXCESSO_FISICO" 
+    },
+    { 
+      sku: "PROD004", 
+      descricao: "Café Tradicional 500g", 
+      tipoDivergencia: "FALTA_FISICO" 
+    },
+    { 
+      sku: "PROD008", 
+      descricao: "Leite UHT 1L", 
+      tipoDivergencia: "PRODUTO_NAO_LISTADO" 
+    }
+  ];
+
   const diferencaMock: DiferencaFisicoContabil = {
-    totalItensFisico: 8, // Itens encontrados fisicamente
-    totalItensContabil: 7, // Itens no sistema contábil
-    temDiferenca: true,
-    itensComDivergencia: 3 // Número de SKUs com diferença
+    totalItensFisico: 8,
+    totalItensContabil: 7,
+    temDiferenca: divergenciasMock.length > 0,
+    itensComDivergencia: divergenciasMock
   };
 
   // Calcula estatísticas
@@ -131,6 +155,24 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
       case 'DEVOLUCAO': return 'bg-orange-100 text-orange-800';
       case 'AMBOS': return 'bg-purple-100 text-purple-800';
       default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getTipoDivergenciaText = (tipo: string) => {
+    switch (tipo) {
+      case 'EXCESSO_FISICO': return 'Excesso no físico';
+      case 'FALTA_FISICO': return 'Falta no físico';
+      case 'PRODUTO_NAO_LISTADO': return 'Produto não listado';
+      default: return 'Divergência';
+    }
+  };
+
+  const getTipoDivergenciaColor = (tipo: string) => {
+    switch (tipo) {
+      case 'EXCESSO_FISICO': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'FALTA_FISICO': return 'bg-red-100 text-red-800 border-red-200';
+      case 'PRODUTO_NAO_LISTADO': return 'bg-purple-100 text-purple-800 border-purple-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -202,7 +244,7 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
               Comparação Físico vs Contábil
               {diferencaMock.temDiferenca && (
                 <Badge variant="outline" className="text-orange-600 border-orange-300">
-                  Com Divergências
+                  {diferencaMock.itensComDivergencia.length} divergências
                 </Badge>
               )}
             </CardTitle>
@@ -229,7 +271,7 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
                       diferencaMock.temDiferenca ? "text-orange-700" : "text-green-700"
                     }`}>
                       {diferencaMock.temDiferenca 
-                        ? `Foram identificadas diferenças em ${diferencaMock.itensComDivergencia} itens`
+                        ? `${diferencaMock.itensComDivergencia.length} itens com divergência`
                         : "Nenhuma divergência encontrada"
                       }
                     </p>
@@ -252,18 +294,42 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
                 </div>
               </div>
 
-              {/* Informações sobre as diferenças */}
+              {/* Lista de Itens com Divergência */}
               {diferencaMock.temDiferenca && (
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
-                  <p className="text-sm font-medium text-orange-800 mb-2">
-                    Informações sobre as divergências:
-                  </p>
-                  <ul className="text-xs text-orange-700 space-y-1">
-                    <li>• Existem diferenças entre o inventário físico e contábil</li>
-                    <li>• {diferencaMock.itensComDivergencia} produtos apresentam divergência</li>
-                    <li>• As quantidades específicas não são exibidas por segurança</li>
-                    <li>• Consulte o sistema administrativo para detalhes completos</li>
-                  </ul>
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-gray-900">
+                    Itens com divergência identificada:
+                  </h4>
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {diferencaMock.itensComDivergencia.map((item, index) => (
+                      <div 
+                        key={`${item.sku}-${index}`}
+                        className="flex items-center justify-between p-3 border rounded-lg bg-white"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">
+                            {item.descricao}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            SKU: {item.sku}
+                          </p>
+                        </div>
+                        <Badge 
+                          variant="outline" 
+                          className={`text-xs whitespace-nowrap ${getTipoDivergenciaColor(item.tipoDivergencia)}`}
+                        >
+                          {getTipoDivergenciaText(item.tipoDivergencia)}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Informação de segurança */}
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <p className="text-xs text-gray-600 text-center">
+                      🔒 As quantidades específicas não são exibidas por política de segurança
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
@@ -368,7 +434,7 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
         </Card>
 
         {/* Card de Ação Final */}
-        <Card className="from-blue-50 to-green-50 border-blue-200">
+        <Card className=" from-blue-50 to-green-50 border-blue-200">
           <CardContent className="p-6">
             <div className="text-center space-y-4">
               <CheckCircle className="h-16 w-16 text-green-600 mx-auto" />
@@ -401,7 +467,7 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
 
               {diferencaMock.temDiferenca && (
                 <p className="text-sm text-orange-600">
-                  * Esta demanda contém divergências entre físico e contábil
+                  * Esta demanda contém {diferencaMock.itensComDivergencia.length} itens com divergência
                 </p>
               )}
 
