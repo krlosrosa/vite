@@ -26,8 +26,8 @@ export default function FotoBauAberto({ setCurrentStep }: FotoBauAbertoProps) {
 
   return (
     <div className="space-y-6 text-center">
+      <pre>{JSON.stringify(checklist, null, 2)}</pre>
       <h3 className="text-lg font-medium">1. Foto do Baú Fechado</h3>
-
       <div className="space-y-4">
         <Input
           type="file"
