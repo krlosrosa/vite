@@ -48,12 +48,8 @@ export default function ListaDemanda() {
     }
   ];
 
-  const demanda = useDevolucaoStore((s) => s.demanda);
-
-
-  return (
+   return (
     <div className="space-y-3 p-2 w-full">
-      <pre>{JSON.stringify(demanda, null, 2)}</pre>
       {sections.map((section) => (
         <Collapsible
           key={section.key}
