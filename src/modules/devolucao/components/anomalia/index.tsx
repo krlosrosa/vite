@@ -163,7 +163,7 @@ export default function Anomalia() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-3">
                 <Label htmlFor="quantidadeCaixas" className="text-sm font-medium">
-                  Quantidade de Caixas
+                  Qtd. Caixas
                 </Label>
                 <Input
                   id="quantidadeCaixas"
@@ -178,7 +178,7 @@ export default function Anomalia() {
               
               <div className="space-y-3">
                 <Label htmlFor="quantidadeUnidades" className="text-sm font-medium">
-                  Quantidade de Unidades
+                  Qtd. Unidades
                 </Label>
                 <Input
                   id="quantidadeUnidades"
