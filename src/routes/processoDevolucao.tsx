@@ -4,6 +4,7 @@ import CheckListDevolucao from "@/modules/devolucao/components/checkList/index";
 import { HeaderMobile } from "@/_shared/components/headerMobile";
 import { useState } from "react";
 import ValidacaoReentrega from "@/modules/devolucao/components/validacaoReentrega";
+import ConferenciaCega from "@/modules/devolucao/components/conferenciaCega";
 
 export default function ProcessoDevolucao() {
 
@@ -39,7 +40,7 @@ export default function ProcessoDevolucao() {
           <ValidacaoReentrega setStep={setCurrentStep} id={id} />
         </TabsContent>
         <TabsContent value="devolucao">
-          <p>Conferencia</p>
+          <ConferenciaCega />
         </TabsContent>
         <TabsContent value="anomalias">
           <p>Anomalias</p>
