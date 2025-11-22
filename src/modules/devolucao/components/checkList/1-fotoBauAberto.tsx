@@ -18,6 +18,7 @@ export default function FotoBauAberto({ setCurrentStep }: FotoBauAbertoProps) {
         try {
           const base64String = await convertFileToBase64(file)
           updateChecklist({ [field]: base64String })
+          alert('Foto salva com sucesso')
         } catch (error) {
           console.error("Erro ao converter arquivo:", error)
         }
