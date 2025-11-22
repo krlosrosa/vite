@@ -5,7 +5,6 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/_shared/c
 import { Button } from "@/_shared/components/ui/button";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Badge } from "@/_shared/components/ui/badge";
-import { useDevolucaoStore } from "../stores/slices";
 
 type StatusDemanda = 'andamento' | 'nao_iniciadas';
 
