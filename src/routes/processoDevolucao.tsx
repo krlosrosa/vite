@@ -6,6 +6,7 @@ import { useState } from "react";
 import ValidacaoReentrega from "@/modules/devolucao/components/validacaoReentrega";
 import ConferenciaCega from "@/modules/devolucao/components/conferenciaCega";
 import Anomalia from "@/modules/devolucao/components/anomalia";
+import FinalizacaoDemanda from "@/modules/devolucao/components/finalizar";
 
 export default function ProcessoDevolucao() {
 
@@ -47,7 +48,7 @@ export default function ProcessoDevolucao() {
           <Anomalia />
         </TabsContent>
         <TabsContent value="finalizacao">
-          <p>Finalização</p>
+          <FinalizacaoDemanda onFinalizarDemanda={() => {}} />
         </TabsContent>
       </Tabs>
     </div>
