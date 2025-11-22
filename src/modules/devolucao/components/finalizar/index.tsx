@@ -1,10 +1,10 @@
 import { Button } from "@/_shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/_shared/components/ui/card";
-import { Badge } from "@/_shared/components/ui/badge";  
-import { CheckCircle, Package, AlertTriangle, CheckSquare, Truck } from "lucide-react";
+import { Badge } from "@/_shared/components/ui/badge";
+import { CheckCircle, Package, AlertTriangle, CheckSquare, Truck, AlertCircle } from "lucide-react";
 import { useState } from "react";
 
-// Tipos mockados baseados na sua estrutura
+// Tipos mockados
 type DemandaItem = {
   id: number;
   placa: string;
@@ -38,6 +38,13 @@ type ItemContabil = {
   sku: string;
   descricao: string;
   validado: boolean;
+}
+
+type DiferencaFisicoContabil = {
+  totalItensFisico: number;
+  totalItensContabil: number;
+  temDiferenca: boolean;
+  itensComDivergencia: number;
 }
 
 type Props = {
@@ -87,7 +94,15 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
     { id: 7, sku: "PROD007", descricao: "Sal Refinado 1kg", validado: true }
   ];
 
-  // Calcula estatísticas com dados mockados
+  // Mock da diferença entre físico e contábil
+  const diferencaMock: DiferencaFisicoContabil = {
+    totalItensFisico: 8, // Itens encontrados fisicamente
+    totalItensContabil: 7, // Itens no sistema contábil
+    temDiferenca: true,
+    itensComDivergencia: 3 // Número de SKUs com diferença
+  };
+
+  // Calcula estatísticas
   const totalItensConferidos = conferenciasMock.length;
   const totalItensContabil = itensContabilMock.length;
   const totalItensValidados = itensContabilMock.filter(item => item.validado).length;
@@ -121,7 +136,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
 
   const handleFinalizar = async () => {
     setIsLoading(true);
-    // Simula uma requisição
     await new Promise(resolve => setTimeout(resolve, 2000));
     onFinalizarDemanda();
     setIsLoading(false);
@@ -176,6 +190,86 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
           </CardContent>
         </Card>
 
+        {/* Card de Comparação Físico vs Contábil */}
+        <Card className={diferencaMock.temDiferenca ? "border-orange-200" : "border-green-200"}>
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2">
+              {diferencaMock.temDiferenca ? (
+                <AlertCircle className="h-5 w-5 text-orange-600" />
+              ) : (
+                <CheckCircle className="h-5 w-5 text-green-600" />
+              )}
+              Comparação Físico vs Contábil
+              {diferencaMock.temDiferenca && (
+                <Badge variant="outline" className="text-orange-600 border-orange-300">
+                  Com Divergências
+                </Badge>
+              )}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {/* Status da Comparação */}
+              <div className={`p-4 rounded-lg ${
+                diferencaMock.temDiferenca ? "bg-orange-50 border border-orange-200" : "bg-green-50 border border-green-200"
+              }`}>
+                <div className="flex items-center gap-3">
+                  {diferencaMock.temDiferenca ? (
+                    <AlertCircle className="h-6 w-6 text-orange-600" />
+                  ) : (
+                    <CheckCircle className="h-6 w-6 text-green-600" />
+                  )}
+                  <div>
+                    <p className={`font-medium ${
+                      diferencaMock.temDiferenca ? "text-orange-800" : "text-green-800"
+                    }`}>
+                      {diferencaMock.temDiferenca ? "Divergências Encontradas" : "Conferência OK"}
+                    </p>
+                    <p className={`text-sm ${
+                      diferencaMock.temDiferenca ? "text-orange-700" : "text-green-700"
+                    }`}>
+                      {diferencaMock.temDiferenca 
+                        ? `Foram identificadas diferenças em ${diferencaMock.itensComDivergencia} itens`
+                        : "Nenhuma divergência encontrada"
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Resumo da Comparação */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center p-3 bg-blue-50 rounded-lg">
+                  <Package className="h-6 w-6 text-blue-600 mx-auto mb-1" />
+                  <p className="text-lg font-bold text-blue-700">{diferencaMock.totalItensFisico}</p>
+                  <p className="text-xs text-blue-600">Itens no Físico</p>
+                </div>
+
+                <div className="text-center p-3 bg-purple-50 rounded-lg">
+                  <CheckSquare className="h-6 w-6 text-purple-600 mx-auto mb-1" />
+                  <p className="text-lg font-bold text-purple-700">{diferencaMock.totalItensContabil}</p>
+                  <p className="text-xs text-purple-600">Itens no Contábil</p>
+                </div>
+              </div>
+
+              {/* Informações sobre as diferenças */}
+              {diferencaMock.temDiferenca && (
+                <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                  <p className="text-sm font-medium text-orange-800 mb-2">
+                    Informações sobre as divergências:
+                  </p>
+                  <ul className="text-xs text-orange-700 space-y-1">
+                    <li>• Existem diferenças entre o inventário físico e contábil</li>
+                    <li>• {diferencaMock.itensComDivergencia} produtos apresentam divergência</li>
+                    <li>• As quantidades específicas não são exibidas por segurança</li>
+                    <li>• Consulte o sistema administrativo para detalhes completos</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Card de Estatísticas */}
         <Card>
           <CardHeader className="pb-4">
@@ -183,14 +277,12 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {/* Itens Conferidos */}
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <Package className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-700">{totalItensConferidos}</p>
                 <p className="text-sm text-blue-600">Itens Conferidos</p>
               </div>
 
-              {/* Itens Validados */}
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <CheckSquare className="h-8 w-8 text-green-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-green-700">{totalItensValidados}</p>
@@ -200,14 +292,12 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
                 </p>
               </div>
 
-              {/* Anomalias */}
               <div className="text-center p-4 bg-orange-50 rounded-lg">
                 <AlertTriangle className="h-8 w-8 text-orange-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-orange-700">{totalAnomalias}</p>
                 <p className="text-sm text-orange-600">Anomalias</p>
               </div>
 
-              {/* Checklist */}
               <div className="text-center p-4 bg-purple-50 rounded-lg">
                 <CheckCircle className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-purple-700">1</p>
@@ -223,7 +313,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
             <CardTitle>Detalhes do Processo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Checklist */}
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
                 <CheckCircle className="h-5 w-5 text-green-600" />
@@ -237,7 +326,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
               <Badge variant="default">Concluído</Badge>
             </div>
 
-            {/* Conferência Cega */}
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
                 <Package className="h-5 w-5 text-green-600" />
@@ -251,7 +339,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
               <Badge variant="default">{totalItensConferidos} itens</Badge>
             </div>
 
-            {/* Validação de Itens */}
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
                 <CheckSquare className="h-5 w-5 text-green-600" />
@@ -265,7 +352,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
               <Badge variant="default">{totalItensValidados}/{totalItensContabil}</Badge>
             </div>
 
-            {/* Anomalias */}
             <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
               <div className="flex items-center gap-3">
                 <AlertTriangle className="h-5 w-5 text-orange-600" />
@@ -281,34 +367,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
           </CardContent>
         </Card>
 
-        {/* Lista de Itens Não Validados */}
-        {itensContabilMock.filter(item => !item.validado).length > 0 && (
-          <Card>
-            <CardHeader className="pb-4">
-              <CardTitle className="text-orange-600 flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5" />
-                Itens Pendentes de Validação
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {itensContabilMock
-                  .filter(item => !item.validado)
-                  .map(item => (
-                    <div key={item.id} className="flex justify-between items-center p-2 bg-orange-50 rounded">
-                      <div>
-                        <p className="text-sm font-medium">{item.sku}</p>
-                        <p className="text-xs text-muted-foreground">{item.descricao}</p>
-                      </div>
-                      <Badge variant="outline" className="text-orange-600">Pendente</Badge>
-                    </div>
-                  ))
-                }
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
         {/* Card de Ação Final */}
         <Card className="from-blue-50 to-green-50 border-blue-200">
           <CardContent className="p-6">
@@ -320,20 +378,32 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
                   Processo Concluído
                 </h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Todas as etapas foram finalizadas. Clique no botão abaixo para 
-                  encerrar a demanda.
+                  {diferencaMock.temDiferenca 
+                    ? "Conferência finalizada com divergências identificadas. Proceda com a finalização."
+                    : "Todas as etapas foram finalizadas sem divergências."
+                  }
                 </p>
               </div>
 
               <Button 
                 onClick={handleFinalizar}
                 disabled={!podeFinalizar || isLoading}
-                className="gap-2 h-12 px-8 bg-green-600 hover:bg-green-700"
+                className={`gap-2 h-12 px-8 ${
+                  diferencaMock.temDiferenca 
+                    ? "bg-orange-600 hover:bg-orange-700" 
+                    : "bg-green-600 hover:bg-green-700"
+                }`}
                 size="lg"
               >
                 <Truck className="h-5 w-5" />
                 {isLoading ? "Finalizando..." : "Finalizar Demanda"}
               </Button>
+
+              {diferencaMock.temDiferenca && (
+                <p className="text-sm text-orange-600">
+                  * Esta demanda contém divergências entre físico e contábil
+                </p>
+              )}
 
               {!podeFinalizar && (
                 <p className="text-sm text-orange-600">
