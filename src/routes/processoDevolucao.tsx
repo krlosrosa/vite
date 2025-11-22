@@ -5,6 +5,7 @@ import { HeaderMobile } from "@/_shared/components/headerMobile";
 import { useState } from "react";
 import ValidacaoReentrega from "@/modules/devolucao/components/validacaoReentrega";
 import ConferenciaCega from "@/modules/devolucao/components/conferenciaCega";
+import Anomalia from "@/modules/devolucao/components/anomalia";
 
 export default function ProcessoDevolucao() {
 
@@ -43,7 +44,7 @@ export default function ProcessoDevolucao() {
           <ConferenciaCega />
         </TabsContent>
         <TabsContent value="anomalias">
-          <p>Anomalias</p>
+          <Anomalia />
         </TabsContent>
         <TabsContent value="finalizacao">
           <p>Finalização</p>
