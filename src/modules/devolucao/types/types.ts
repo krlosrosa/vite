@@ -96,12 +96,12 @@ export type DemandaSlice = {
 export type ChecklistItem = {
   id?: number;
   idDemanda: number;
-  fotoBauAberto: string | null;
-  fotoBauFechado: string | null;
+  fotoBauAberto?: string | null;
+  fotoBauFechado?: string | null;
   temperaturaProduto?: number;
   temperaturaCaminhao?: number;
-  anomalias: string[];
-  fotosAnomalia: string[];
+  anomalias?: string[];
+  fotosAnomalia?: string[];
   obs?: string
   syncStatus?: SyncStatus;
 }

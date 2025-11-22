@@ -31,7 +31,7 @@ export default function CheckListDevolucao({ setStep, id }: CheckListDevolucaoPr
         ))}
       </TabsList>
       <TabsContent value="fotoBauAberto">
-        <FotoBauAberto setCurrentStep={setCurrentStep as (step: string) => void}/>
+        <FotoBauAberto setCurrentStep={setCurrentStep as (step: string) => void} id={id}/>
       </TabsContent>
       <TabsContent value="fotoBauFechado">
         <FotoBauFechado setCurrentStep={setCurrentStep as (step: string) => void}/>

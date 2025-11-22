@@ -4,21 +4,28 @@ import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
 import { useDevolucaoStore } from "../../stores/slices"
 import { Button } from "@/_shared/components/ui/button"
 
-type FotoBauAbertoProps = { setCurrentStep: (step: string) => void }
+type FotoBauAbertoProps = { 
+  setCurrentStep: (step: string) => void 
+  id: string
+}
 
-export default function FotoBauAberto({ setCurrentStep }: FotoBauAbertoProps) {
-  const { checklist, updateChecklist } = useDevolucaoStore()
+export default function FotoBauAberto({ setCurrentStep, id  }: FotoBauAbertoProps) {
+  const { checklist, updateChecklist, setChecklist } = useDevolucaoStore()
 
   const handleFileUpload = (field: 'fotoBauAberto' | 'fotoBauFechado' | 'fotosAnomalia') =>
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!checklist) return
-
       const file = e.target.files?.[0]
       if (file) {
+      if (!checklist) {
+        const base64String = await convertFileToBase64(file)
+        setChecklist({
+          idDemanda: Number(id),
+          fotoBauAberto: base64String,
+        })
+      }
         try {
           const base64String = await convertFileToBase64(file)
           updateChecklist({ [field]: base64String })
-          alert('Foto salva com sucesso')
         } catch (error) {
           console.error("Erro ao converter arquivo:", error)
         }

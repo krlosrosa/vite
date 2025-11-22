@@ -59,14 +59,15 @@ export default function CheckList({ id }: { id: string }) {
   }
 
   const handleInputChange = (field: keyof ChecklistItem, value: any) => {
+    console.log(field, value)
     if (!checklist) return
-    updateChecklist({ [field]: value })
+    
   }
 
   const handleAddAnomalia = () => {
     if (currentAnomalia.trim() && checklist) {
       updateChecklist({
-        anomalias: [...checklist.anomalias, currentAnomalia.trim()]
+        anomalias: [...checklist?.anomalias || [], currentAnomalia.trim()]
       })
       setCurrentAnomalia("")
     }
@@ -75,14 +76,14 @@ export default function CheckList({ id }: { id: string }) {
   const handleRemoveAnomalia = (index: number) => {
     if (!checklist) return
     updateChecklist({
-      anomalias: checklist.anomalias.filter((_, i) => i !== index)
+      anomalias: checklist?.anomalias?.filter((_, i) => i !== index)
     })
   }
 
   const handleRemoveFotoAnomalia = (index: number) => {
     if (!checklist) return
     updateChecklist({
-      fotosAnomalia: checklist.fotosAnomalia.filter((_, i) => i !== index)
+      fotosAnomalia: checklist?.fotosAnomalia?.filter((_, i) => i !== index)
     })
   }
 
@@ -98,7 +99,7 @@ export default function CheckList({ id }: { id: string }) {
           
           if (field === 'fotosAnomalia') {
             updateChecklist({
-              fotosAnomalia: [...checklist.fotosAnomalia, base64String]
+              fotosAnomalia: [...(checklist?.fotosAnomalia || []), base64String]
             })
           } else {
             updateChecklist({ [field]: base64String })
@@ -181,7 +182,7 @@ export default function CheckList({ id }: { id: string }) {
                   onChange={handleFileUpload('fotoBauFechado')}
                   disabled={isUploading}
                 />
-                {renderImagePreview(checklist.fotoBauFechado, "Baú Fechado")}
+                {renderImagePreview(checklist?.fotoBauFechado || null, "Baú Fechado")}
                 {!checklist.fotoBauFechado && (
                   <p className="text-sm text-gray-500">
                     Tire uma foto do baú fechado antes da inspeção
@@ -202,8 +203,8 @@ export default function CheckList({ id }: { id: string }) {
                   onChange={handleFileUpload('fotoBauAberto')}
                   disabled={isUploading}
                 />
-                {renderImagePreview(checklist.fotoBauAberto, "Baú Aberto")}
-                {!checklist.fotoBauAberto && (
+                {renderImagePreview(checklist?.fotoBauAberto || null, "Baú Aberto")}
+                {!checklist?.fotoBauAberto && (
                   <p className="text-sm text-gray-500">
                     Tire uma foto do baú aberto durante a inspeção
                   </p>
@@ -223,7 +224,7 @@ export default function CheckList({ id }: { id: string }) {
                     id="temperaturaProduto"
                     type="number"
                     step="0.1"
-                    value={checklist.temperaturaProduto || ""}
+                    value={checklist?.temperaturaProduto || ""}
                     onChange={(e) => handleInputChange('temperaturaProduto', 
                       e.target.value ? parseFloat(e.target.value) : undefined
                     )}
@@ -235,7 +236,7 @@ export default function CheckList({ id }: { id: string }) {
                     id="temperaturaCaminhao"
                     type="number"
                     step="0.1"
-                    value={checklist.temperaturaCaminhao || ""}
+                    value={checklist?.temperaturaCaminhao || ""}
                     onChange={(e) => handleInputChange('temperaturaCaminhao',
                       e.target.value ? parseFloat(e.target.value) : undefined
                     )}
@@ -274,11 +275,11 @@ export default function CheckList({ id }: { id: string }) {
                     Adicionar
                   </Button>
                 </div>
-                
+                    
                 {/* Lista de Anomalias */}
-                {checklist.anomalias.length > 0 && (
+                {checklist?.anomalias?.length && checklist?.anomalias?.length > 0 && (
                   <div className="space-y-2">
-                    {checklist.anomalias.map((anomalia, index) => (
+                    {checklist?.anomalias?.map((anomalia, index) => (
                       <div key={index} className="flex items-center justify-between p-3 border rounded">
                         <span>{anomalia}</span>
                         <Button
@@ -307,10 +308,10 @@ export default function CheckList({ id }: { id: string }) {
                 />
                 
                 {/* Preview das fotos de anomalias */}
-                {checklist.fotosAnomalia.length > 0 && (
+                {checklist?.fotosAnomalia?.length && checklist?.fotosAnomalia?.length > 0 && (
                   <div className="mt-2">
                     <div className="flex flex-wrap gap-2">
-                      {checklist.fotosAnomalia.map((foto, index) => (
+                      {checklist?.fotosAnomalia?.map((foto, index) => (
                         <div key={index} className="relative">
                           <img 
                             src={foto} 
@@ -339,7 +340,7 @@ export default function CheckList({ id }: { id: string }) {
                 <Label htmlFor="obs">Observações Finais</Label>
                 <Textarea
                   id="obs"
-                  value={checklist.obs || ""}
+                  value={checklist?.obs || ""}
                   onChange={(e) => handleInputChange('obs', e.target.value)}
                   placeholder="Observações adicionais sobre a inspeção..."
                   rows={4}
