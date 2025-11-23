@@ -77,20 +77,37 @@ export default function FotoBauAberto({ setCurrentStep, id }: FotoBauAbertoProps
           )}
         </div>
         {/* Botão de Ação */}
-        <Button
-          onClick={() => setCurrentStep('fotoBauFechado')}
-          disabled={!hasPhoto || isUploading}
-          className="w-full gap-2"
-        >
-          {hasPhoto ? (
-            <>
-              Próximo Passo
-              <ArrowRight className="w-4 h-4" />
-            </>
-          ) : (
-            "Faça upload da foto para continuar"
-          )}
-        </Button>
+        <div className="flex justify-between">
+
+          <Button
+            onClick={() => setCurrentStep('fotoBauFechado')}
+            disabled={!hasPhoto || isUploading}
+            className="w-full gap-2"
+          >
+            {hasPhoto ? (
+              <>
+                Próximo Passo
+                <ArrowRight className="w-4 h-4" />
+              </>
+            ) : (
+              "Faça upload da foto para continuar"
+            )}
+          </Button>
+          <Button
+            onClick={() => setCurrentStep('temperatura')}
+            disabled={!hasPhoto || isUploading}
+            className="w-full gap-2"
+          >
+            {hasPhoto ? (
+              <>
+                Próximo Passo
+                <ArrowRight className="w-4 h-4" />
+              </>
+            ) : (
+              "Faça upload da foto para continuar"
+            )}
+          </Button>
+        </div>
 
         {/* Preview da Imagem */}
         <div className="space-y-3">

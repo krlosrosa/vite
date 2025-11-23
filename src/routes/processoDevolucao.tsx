@@ -18,7 +18,7 @@ export default function ProcessoDevolucao() {
   return (
     <div>
       <Tabs defaultValue="checklist" value={currentStep} onValueChange={setCurrentStep}>
-        <TabsList>
+        <TabsList hidden={true}>
           <TabsTrigger value="checklist">Checklist</TabsTrigger>
           <TabsTrigger value="reentrega">Reentrega</TabsTrigger>
           <TabsTrigger value="devolucao">Conferencia</TabsTrigger>

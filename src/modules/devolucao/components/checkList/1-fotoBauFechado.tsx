@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/_sh
 import { Button } from "@/_shared/components/ui/button"
 import { Input } from "@/_shared/components/ui/input"
 import { Label } from "@/_shared/components/ui/label"
-import { AlertCircle, Camera, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react"
+import { AlertCircle, Camera, CheckCircle2, ArrowRight } from "lucide-react"
 import { Alert, AlertDescription } from "@/_shared/components/ui/alert"
 import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
 import { useDevolucaoStore } from "../../stores/slices"
@@ -120,18 +120,9 @@ export default function FotoBauFechado({ setCurrentStep, id }: FotoBauFechadoPro
         </div>
 
         {/* Botões de Navegação */}
-        <div className="flex gap-3">
+        <div className="flex justify-end">
           <Button
-            variant="outline"
             onClick={() => setCurrentStep('fotoBauAberto')}
-            disabled={isUploading}
-            className="flex-1 gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Voltar
-          </Button>
-          <Button
-            onClick={() => setCurrentStep('temperatura')}
             disabled={!hasPhoto || isUploading}
             className="flex-1 gap-2"
           >

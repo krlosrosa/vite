@@ -10,7 +10,6 @@ export const createChecklistSlice: StateCreator<
 > = (set) => ({
   checklist: [],
   addChecklist: (checklist: ChecklistItem) => set((state) => {
-    alert(JSON.stringify(checklist))
     const checklistArray = Array.isArray(state.checklist) ? state.checklist : [];
     return { checklist: [...checklistArray, checklist] };
   }),
