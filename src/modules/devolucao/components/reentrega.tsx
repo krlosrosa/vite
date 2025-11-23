@@ -1,6 +1,8 @@
+import { useParams } from "@tanstack/react-router";
 import { useDevolucaoStore } from "../stores/slices"
 
-export default function Reentrega({ id }: { id: string }) {
+export default function Reentrega() {
+  const { id } = useParams({ from: '/devolucao/reentrega/$id' });
   const { demanda: demandaStore, checklist: checklistStore, conferencias, anomalias } = useDevolucaoStore()
 
   // Função para formatar o status

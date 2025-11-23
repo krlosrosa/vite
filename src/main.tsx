@@ -42,7 +42,7 @@ const devolucaoRoute = createRoute({
 // ------------------------
 const reentregaRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/devolucao/reentrega',
+  path: '/devolucao/reentrega/$id',
   component: Reentrega,
 })
 

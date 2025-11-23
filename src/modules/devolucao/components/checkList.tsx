@@ -55,7 +55,7 @@ export default function CheckList({ id }: { id: string }) {
       // Aqui você pode salvar no localStorage ou indexedDB
       localStorage.setItem('checklist', JSON.stringify(checklist))
       console.log("Checklist salvo com sucesso!")
-      router.navigate({ to: '/devolucao/reentrega' })
+      router.navigate({ to: '/devolucao/reentrega/$id', params: { id: id } })
     } catch (error) {
       console.error("Erro ao salvar checklist:", error)
     }
