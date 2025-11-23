@@ -16,28 +16,28 @@ interface CardItemDemandaProps {
 
 
 const statusConfig = {
-  AGUARDANDO_CONFERENCIA: { 
-    label: "Aguardando Conferência", 
-    color: "text-orange-600 bg-orange-50 border-orange-200" 
+  AGUARDANDO_CONFERENCIA: {
+    label: "Aguardando Conferência",
+    color: "text-orange-600 bg-orange-50 border-orange-200"
   },
-  EM_CONFERENCIA: { 
-    label: "Em Conferência", 
-    color: "text-blue-600 bg-blue-50 border-blue-200" 
+  EM_CONFERENCIA: {
+    label: "Em Conferência",
+    color: "text-blue-600 bg-blue-50 border-blue-200"
   },
-  CONCLUIDA: { 
-    label: "Concluída", 
-    color: "text-green-600 bg-green-50 border-green-200" 
+  CONCLUIDA: {
+    label: "Concluída",
+    color: "text-green-600 bg-green-50 border-green-200"
   },
-  CANCELADA: { 
-    label: "Cancelada", 
-    color: "text-red-600 bg-red-50 border-red-200" 
+  CANCELADA: {
+    label: "Cancelada",
+    color: "text-red-600 bg-red-50 border-red-200"
   }
 };
 
 export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDemandaProps) {
-  const setDemanda = useDevolucaoStore((s) => s.setDemanda);
+  const addDemanda = useDevolucaoStore((s) => s.addDemanda);
   const demandaStore = useDevolucaoStore((s) => s.demanda);
-  const step = useDevolucaoStore((s) => s.demanda?.step);
+  const step = Array.isArray(demandaStore) ? demandaStore.find((d) => d.id === demanda.id)?.step : undefined;
   const router = useRouter();
 
   const currentStatus = statusConfig[demanda.status as keyof typeof statusConfig] || statusConfig.AGUARDANDO_CONFERENCIA;
@@ -51,21 +51,11 @@ export function CardItemDemanda({ demanda, onContinuar, onIniciar }: CardItemDem
 
   const handleAction = () => {
     let currentStep: number = step || 1;
-     if(step === null) {
+    if (step === null || step === undefined) {
       currentStep = 1;
-     }
-
-     if(demandaStore){
-      if(demandaStore.id === demanda.id) {
-        router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
-      }else {
-        setDemanda(demanda, currentStep);
-        router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
-      }
-     } else{
-       setDemanda(demanda, currentStep);
-       router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
-     }
+    }
+    addDemanda({ ...demanda, step: currentStep });
+    router.navigate({ to: '/devolucao/$id', params: { id: demanda.id.toString() } })
   };
 
   const formatDate = (dateString: string) => {

@@ -16,7 +16,7 @@ type Step = 1 | 2 | 3 | 4
 export default function CheckList({ id }: { id: string }) {
   const { 
     checklist, 
-    setChecklist, 
+    addChecklist, 
     updateChecklist 
   } = useDevolucaoStore()
   const router = useRouter()
@@ -25,10 +25,13 @@ export default function CheckList({ id }: { id: string }) {
   const [currentAnomalia, setCurrentAnomalia] = useState("")
   const [isUploading, setIsUploading] = useState(false)
 
+  const checklistArray = Array.isArray(checklist) ? checklist : [];
+  const checklistItem = checklistArray.find((c) => c.id === Number(id));
+
   // Inicializa o formulário se não houver checklist
   useEffect(() => {
-    if (!checklist) {
-      setChecklist({
+    if (!checklistItem) {
+      addChecklist({
         idDemanda: Number(id),
         fotoBauAberto: null,
         fotoBauFechado: null,
@@ -39,7 +42,7 @@ export default function CheckList({ id }: { id: string }) {
         obs: ""
       })
     }
-  }, [checklist, setChecklist])
+  }, [checklistItem, addChecklist, id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,31 +68,32 @@ export default function CheckList({ id }: { id: string }) {
   }
 
   const handleAddAnomalia = () => {
-    if (currentAnomalia.trim() && checklist) {
-      updateChecklist({
-        anomalias: [...checklist?.anomalias || [], currentAnomalia.trim()]
+    if (currentAnomalia.trim() && checklistItem) {
+      const currentAnomalias = Array.isArray(checklistItem.anomalias) ? checklistItem.anomalias : [];
+      updateChecklist(Number(id), {
+        anomalias: [...currentAnomalias, currentAnomalia.trim()]
       })
       setCurrentAnomalia("")
     }
   }
 
   const handleRemoveAnomalia = (index: number) => {
-    if (!checklist) return
-    updateChecklist({
-      anomalias: checklist?.anomalias?.filter((_, i) => i !== index)
+    if (!checklistItem || !checklistItem.anomalias) return
+    updateChecklist(Number(id), {
+      anomalias: checklistItem.anomalias.filter((_, i) => i !== index)
     })
   }
 
   const handleRemoveFotoAnomalia = (index: number) => {
-    if (!checklist) return
-    updateChecklist({
-      fotosAnomalia: checklist?.fotosAnomalia?.filter((_, i) => i !== index)
+    if (!checklistItem || !checklistItem.fotosAnomalia) return
+    updateChecklist(Number(id), {
+      fotosAnomalia: checklistItem.fotosAnomalia.filter((_, i) => i !== index)
     })
   }
 
   const handleFileUpload = (field: 'fotoBauAberto' | 'fotoBauFechado' | 'fotosAnomalia') => 
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!checklist) return
+      if (!checklistItem) return
       
       const file = e.target.files?.[0]
       if (file) {
@@ -98,11 +102,12 @@ export default function CheckList({ id }: { id: string }) {
           const base64String = await convertFileToBase64(file)
           
           if (field === 'fotosAnomalia') {
-            updateChecklist({
-              fotosAnomalia: [...(checklist?.fotosAnomalia || []), base64String]
+            const currentFotos = Array.isArray(checklistItem.fotosAnomalia) ? checklistItem.fotosAnomalia : [];
+            updateChecklist(Number(id), {
+              fotosAnomalia: [...currentFotos, base64String]
             })
           } else {
-            updateChecklist({ [field]: base64String })
+            updateChecklist(Number(id), { [field]: base64String })
           }
         } catch (error) {
           console.error("Erro ao converter arquivo:", error)
@@ -138,7 +143,7 @@ export default function CheckList({ id }: { id: string }) {
   }
 
   // Se não há checklist, mostra loading
-  if (!checklist) {
+  if (!checklistItem) {
     return (
       <Card className="w-full max-w-2xl mx-auto">
         <CardContent className="flex justify-center items-center py-8">
@@ -182,8 +187,8 @@ export default function CheckList({ id }: { id: string }) {
                   onChange={handleFileUpload('fotoBauFechado')}
                   disabled={isUploading}
                 />
-                {renderImagePreview(checklist?.fotoBauFechado || null, "Baú Fechado")}
-                {!checklist.fotoBauFechado && (
+                {renderImagePreview(checklistItem?.fotoBauFechado || null, "Baú Fechado")}
+                {!checklistItem?.fotoBauFechado && (
                   <p className="text-sm text-gray-500">
                     Tire uma foto do baú fechado antes da inspeção
                   </p>
@@ -203,8 +208,8 @@ export default function CheckList({ id }: { id: string }) {
                   onChange={handleFileUpload('fotoBauAberto')}
                   disabled={isUploading}
                 />
-                {renderImagePreview(checklist?.fotoBauAberto || null, "Baú Aberto")}
-                {!checklist?.fotoBauAberto && (
+                {renderImagePreview(checklistItem?.fotoBauAberto || null, "Baú Aberto")}
+                {!checklistItem?.fotoBauAberto && (
                   <p className="text-sm text-gray-500">
                     Tire uma foto do baú aberto durante a inspeção
                   </p>
@@ -224,7 +229,7 @@ export default function CheckList({ id }: { id: string }) {
                     id="temperaturaProduto"
                     type="number"
                     step="0.1"
-                    value={checklist?.temperaturaProduto || ""}
+                    value={checklistItem?.temperaturaProduto || ""}
                     onChange={(e) => handleInputChange('temperaturaProduto', 
                       e.target.value ? parseFloat(e.target.value) : undefined
                     )}
@@ -236,7 +241,7 @@ export default function CheckList({ id }: { id: string }) {
                     id="temperaturaCaminhao"
                     type="number"
                     step="0.1"
-                    value={checklist?.temperaturaCaminhao || ""}
+                    value={checklistItem?.temperaturaCaminhao || ""}
                     onChange={(e) => handleInputChange('temperaturaCaminhao',
                       e.target.value ? parseFloat(e.target.value) : undefined
                     )}
@@ -277,9 +282,9 @@ export default function CheckList({ id }: { id: string }) {
                 </div>
                     
                 {/* Lista de Anomalias */}
-                {checklist?.anomalias?.length && checklist?.anomalias?.length > 0 && (
+                {checklistItem?.anomalias?.length && (
                   <div className="space-y-2">
-                    {checklist?.anomalias?.map((anomalia, index) => (
+                    {checklistItem.anomalias.map((anomalia, index) => (
                       <div key={index} className="flex items-center justify-between p-3 border rounded">
                         <span>{anomalia}</span>
                         <Button
@@ -308,10 +313,10 @@ export default function CheckList({ id }: { id: string }) {
                 />
                 
                 {/* Preview das fotos de anomalias */}
-                {checklist?.fotosAnomalia?.length && checklist?.fotosAnomalia?.length > 0 && (
+                {checklistItem?.fotosAnomalia?.length && (
                   <div className="mt-2">
                     <div className="flex flex-wrap gap-2">
-                      {checklist?.fotosAnomalia?.map((foto, index) => (
+                      {checklistItem.fotosAnomalia.map((foto, index) => (
                         <div key={index} className="relative">
                           <img 
                             src={foto} 
@@ -340,7 +345,7 @@ export default function CheckList({ id }: { id: string }) {
                 <Label htmlFor="obs">Observações Finais</Label>
                 <Textarea
                   id="obs"
-                  value={checklist?.obs || ""}
+                  value={checklistItem?.obs || ""}
                   onChange={(e) => handleInputChange('obs', e.target.value)}
                   placeholder="Observações adicionais sobre a inspeção..."
                   rows={4}

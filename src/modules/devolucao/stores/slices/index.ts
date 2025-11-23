@@ -13,12 +13,12 @@ import { createItemContabilSlice } from './itemContabil'
 
 export const useDevolucaoStore = create<AppState>()(
   persist(
-    (set, get, api) => ({
-      ...createDemandaSlice(set, get, api),
-      ...createChecklistSlice(set, get, api),
-      ...createConferenciaSlice(set, get, api),
-      ...createAnomaliaSlice(set, get, api),
-      ...createItemContabilSlice(set, get, api),
+    (...a) => ({
+      ...createDemandaSlice(...a),
+      ...createChecklistSlice(...a),
+      ...createConferenciaSlice(...a),
+      ...createAnomaliaSlice(...a),
+      ...createItemContabilSlice(...a),
     }),
     {
       name: 'demand-inspections-storage',

@@ -83,12 +83,10 @@ export type DemandaItem = {
 }
 
 export type DemandaSlice = {
-  demanda: DemandaItem | null
-  setDemanda: (d: DemandaItem, step: number) => void
-  updateDemanda: (d: Partial<DemandaItem>) => void
-  clearDemanda: () => void
-  syncDemanda: () => void
-  updateStep: (step: number) => void
+  demanda: DemandaItem[]
+  addDemanda: (demanda: DemandaItem) => void
+  updateDemanda: (id: number, demanda: Partial<DemandaItem>) => void
+  removeDemanda: (id: number) => void
 }
 
 
@@ -106,12 +104,11 @@ export type ChecklistItem = {
   syncStatus?: SyncStatus;
 }
 export type ChecklistSlice = {
-  checklist: ChecklistItem | null
+  checklist: ChecklistItem[]
+  addChecklist: (checklist: ChecklistItem) => void
+  updateChecklist: (id: number, checklist: Partial<ChecklistItem>) => void
+  removeChecklist: (id: number) => void
   syncStatus?: SyncStatus;
-  setChecklist: (c: ChecklistItem) => void
-  updateChecklist: (c: Partial<ChecklistItem>) => void
-  clearChecklist: () => void
-  syncChecklist: () => void
 }
 
 // Item Contabil

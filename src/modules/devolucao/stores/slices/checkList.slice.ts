@@ -8,15 +8,21 @@ export const createChecklistSlice: StateCreator<
   [],
   ChecklistSlice
 > = (set) => ({
-  checklist: null,
-  setChecklist: (checklist: ChecklistItem) => set(() => ({ checklist: { ...checklist, syncStatus: 'unsynced' } })),
-    updateChecklist: (c) =>
-      set((state) => ({
-        checklist: state.checklist ? { ...state.checklist, ...c } : null,
-      })),
-  clearChecklist: () => set(() => ({ checklist: null })),
-  syncChecklist: () =>
-    set((state) => ({
-      checklist: state.checklist ? { ...state.checklist, syncStatus: 'syncing' } : null,
-    })),
+  checklist: [],
+  addChecklist: (checklist: ChecklistItem) => set((state) => {
+    alert(JSON.stringify(checklist))
+    const checklistArray = Array.isArray(state.checklist) ? state.checklist : [];
+    return { checklist: [...checklistArray, checklist] };
+  }),
+  updateChecklist: (id: number, checklist: Partial<ChecklistItem>) =>
+    set((state) => {
+      const checklistArray = Array.isArray(state.checklist) ? state.checklist : [];
+      return {
+        checklist: checklistArray.map((c) => c.idDemanda === id ? { ...c, ...checklist } : c),
+      };
+    }),
+  removeChecklist: (id: number) => set((state) => {
+    const checklistArray = Array.isArray(state.checklist) ? state.checklist : [];
+    return { checklist: checklistArray.filter((c) => c.idDemanda !== id) };
+  }),
 })

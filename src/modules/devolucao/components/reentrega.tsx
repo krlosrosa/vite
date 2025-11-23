@@ -1,7 +1,7 @@
 import { useDevolucaoStore } from "../stores/slices"
 
-export default function Reentrega() {
-  const { demanda, checklist, conferencias, anomalias } = useDevolucaoStore()
+export default function Reentrega({ id }: { id: string }) {
+  const { demanda: demandaStore, checklist: checklistStore, conferencias, anomalias } = useDevolucaoStore()
 
   // Função para formatar o status
   const formatStatus = (status: string) => {
@@ -22,6 +22,9 @@ export default function Reentrega() {
     }
     return statusMap[status] || status
   }
+
+  const demanda = demandaStore.find((d) => d.id === Number(id))
+  const checklist = checklistStore.find((c) => c.id === Number(id))
 
   return (
     <div className="p-6 space-y-6">
@@ -133,7 +136,7 @@ export default function Reentrega() {
 
             <div>
               <label className="font-medium text-gray-700">Fotos de Anomalias:</label>
-              {checklist.fotosAnomalia && checklist.fotosAnomalia.length > 0 ? (
+              {checklist.fotosAnomalia && checklist.fotosAnomalia.length > 0 ? (  
                 <div className="flex flex-wrap gap-2 mt-2">
                   {checklist.fotosAnomalia.map((foto, index) => (
                     <img 

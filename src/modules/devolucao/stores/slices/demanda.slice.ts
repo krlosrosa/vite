@@ -8,17 +8,20 @@ export const createDemandaSlice: StateCreator<
   [],
   DemandaSlice
 > = (set) => ({
-  demanda: null,
-  syncStatus: 'unsynced',
-  setDemanda: (demanda: DemandaItem, step: number) => set(() => ({ demanda: { ...demanda, syncStatus: 'unsynced', step } })),
-    updateDemanda: (d) =>
-      set((state) => ({
-        demanda: state.demanda ? { ...state.demanda, ...d } : null,
-      })),
-  clearDemanda: () => set(() => ({ demanda: null })),
-  syncDemanda: () =>
-    set((state) => ({
-      demanda: state.demanda ? { ...state.demanda, syncStatus: 'syncing' } : null,
-    })),
-  updateStep: (step: number) => set((state) => ({ demanda: state.demanda ? { ...state.demanda, step } : null })),
+  demanda: [],
+  addDemanda: (demanda: DemandaItem) => set((state) => {
+    const demandaArray = Array.isArray(state.demanda) ? state.demanda : [];
+    return { demanda: [...demandaArray, demanda] };
+  }),
+  updateDemanda: (id: number, demanda: Partial<DemandaItem>) =>
+    set((state) => {
+      const demandaArray = Array.isArray(state.demanda) ? state.demanda : [];
+      return {
+        demanda: demandaArray.map((d) => d.id === id ? { ...d, ...demanda } : d),
+      };
+    }),
+  removeDemanda: (id: number) => set((state) => {
+    const demandaArray = Array.isArray(state.demanda) ? state.demanda : [];
+    return { demanda: demandaArray.filter((d) => d.id !== id) };
+  }),
 })
