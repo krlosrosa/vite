@@ -52,7 +52,7 @@ export default function ProcessoDevolucao() {
           <FinalizacaoDemanda onFinalizarDemanda={() => {}} />
         </TabsContent>
       </Tabs>
-      <BottomMenu demandaId={Number(id)} />
+      <BottomMenu demandaId={Number(id)} setStep={setCurrentStep} />
     </div>
   )
 }

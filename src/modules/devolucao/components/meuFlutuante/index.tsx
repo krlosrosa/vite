@@ -2,7 +2,12 @@ import { Button } from "@/_shared/components/ui/button";
 import ListaItensConferidos from "../listaItensConferidos";
 import ListaAnomalias from "../listaItensAnomalia";
 
-export default function BottomMenu({demandaId}: {demandaId: number}) {
+type BottomMenuProps = {
+  demandaId: number;
+  setStep: (step: string) => void;
+}
+
+export default function BottomMenu({demandaId, setStep}: BottomMenuProps) {
   return (
     <div className="fixed bottom-0 inset-x-0 z-20">
       <div className="mx-auto max-w-md p-3">
@@ -11,6 +16,7 @@ export default function BottomMenu({demandaId}: {demandaId: number}) {
           <ListaAnomalias demandaId={demandaId} />
           {/* Finalizar demanda */}
           <Button
+            onClick={() => setStep('finalizacao')}
             className="col-span-2 h-12 text-sm shadow-md"
           >
             Finalizar
