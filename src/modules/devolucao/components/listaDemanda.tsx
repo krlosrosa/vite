@@ -49,6 +49,7 @@ export default function ListaDemanda() {
 
    return (
     <div className="space-y-3 p-2 w-full">
+      
       {sections.map((section) => (
         <Collapsible
           key={section.key}

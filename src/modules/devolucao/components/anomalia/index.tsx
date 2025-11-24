@@ -4,7 +4,7 @@ import { Label } from "@/_shared/components/ui/label";
 import { Textarea } from "@/_shared/components/ui/textarea";
 import { Card, CardContent } from "@/_shared/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/_shared/components/ui/select";
-import { AlertTriangle, Camera, Save, X, Image } from "lucide-react";
+import { AlertTriangle, Save, X, Image } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useDevolucaoStore } from "../../stores/conferencia";
 import { Sheet, SheetTrigger, SheetContent } from "@/_shared/components/ui/sheet";
@@ -81,57 +81,6 @@ export default function Anomalia({ demandaId }: AnomaliaProps) {
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = error => reject(error);
     });
-  };
-
-  // Função para capturar foto da câmera
-  const handleCapturarCamera = async () => {
-    try {
-      // Verifica se a API de câmera está disponível
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("A câmera não está disponível neste dispositivo");
-        return;
-      }
-
-      // Cria um elemento de vídeo temporário
-      const video = document.createElement('video');
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } // Usa a câmera traseira
-      });
-      
-      video.srcObject = stream;
-      await video.play();
-
-      // Cria um canvas para capturar a foto
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      // Aguarda um momento para a câmera focar
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      context?.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const base64 = canvas.toDataURL('image/jpeg', 0.8);
-
-      // Para a stream da câmera
-      stream.getTracks().forEach(track => track.stop());
-
-      // Adiciona a foto ao estado
-      const novaFoto: FotoItem = {
-        id: `foto-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
-        nome: `camera-${Date.now()}.jpg`,
-        base64: base64
-      };
-
-      setAnomalia(prev => ({
-        ...prev,
-        fotos: [...prev.fotos, novaFoto]
-      }));
-
-    } catch (error) {
-      console.error("Erro ao capturar foto:", error);
-      alert("Erro ao acessar a câmera. Verifique as permissões.");
-    }
   };
 
   // Função para selecionar foto da galeria
@@ -439,14 +388,6 @@ export default function Anomalia({ demandaId }: AnomaliaProps) {
                     {/* Botões para adicionar foto */}
                     {anomalia.fotos.length < 6 && (
                       <>
-                        <button
-                          onClick={handleCapturarCamera}
-                          className="aspect-square border-2 border-dashed border-blue-300 rounded-md flex flex-col items-center justify-center gap-1 hover:border-blue-400 transition-colors bg-blue-50"
-                        >
-                          <Camera className="h-5 w-5 text-blue-600" />
-                          <span className="text-xs text-blue-600">Câmera</span>
-                        </button>
-                        
                         <button
                           onClick={handleSelecionarGaleria}
                           className="aspect-square border-2 border-dashed border-green-300 rounded-md flex flex-col items-center justify-center gap-1 hover:border-green-400 transition-colors bg-green-50"

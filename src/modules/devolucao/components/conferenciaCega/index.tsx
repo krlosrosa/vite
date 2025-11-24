@@ -34,7 +34,7 @@ export default function ConferenciaCega({ demandaId}: ConferenciaCegaProps) {
     setDescricaoSelecionada,
   } = useDevolucaoStore();
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm<ItemConferencia>({
+  const { register, handleSubmit, formState: { errors }, setValue, watch, reset, setFocus } = useForm<ItemConferencia>({
     resolver: zodResolver(ItemConferenciaSchema),
     defaultValues: {
       sku: "",
@@ -76,6 +76,11 @@ export default function ConferenciaCega({ demandaId}: ConferenciaCegaProps) {
     
     // Reset do formulário após adicionar
     reset();
+    
+    // Foca no campo SKU após salvar
+    setTimeout(() => {
+      setFocus('sku');
+    }, 0);
   };
 
   return (
