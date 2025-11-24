@@ -1,5 +1,5 @@
 import { useParams } from "@tanstack/react-router";
-import { useDevolucaoStore } from "../stores/slices"
+import { useDevolucaoStore } from "../stores/conferencia"
 
 export default function Reentrega() {
   const { id } = useParams({ from: '/devolucao/reentrega/$id' });

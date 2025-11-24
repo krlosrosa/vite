@@ -4,7 +4,7 @@ import { Input } from "@/_shared/components/ui/input"
 import { Label } from "@/_shared/components/ui/label"
 import { AlertCircle, Thermometer, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react"
 import { Alert, AlertDescription } from "@/_shared/components/ui/alert"
-import { useDevolucaoStore } from "../../stores/slices"
+import { useDevolucaoStore } from "../../stores/conferencia"
 import type { ChecklistItem } from "../../types/types"
 
 type TemperaturaProps = {

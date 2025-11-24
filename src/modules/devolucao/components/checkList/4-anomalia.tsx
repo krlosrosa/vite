@@ -7,7 +7,7 @@ import { Textarea } from "@/_shared/components/ui/textarea"
 import { Alert, AlertDescription } from "@/_shared/components/ui/alert"
 import { Badge } from "@/_shared/components/ui/badge"
 import { AlertTriangle, Camera, Plus, X, ArrowRight, ArrowLeft } from "lucide-react"
-import { useDevolucaoStore } from "../../stores/slices"
+import { useDevolucaoStore } from "../../stores/conferencia"
 import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
 import { TypeDemanda, type ChecklistItem } from "../../types/types"
 

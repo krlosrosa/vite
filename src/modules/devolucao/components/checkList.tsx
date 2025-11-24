@@ -7,7 +7,7 @@ import { Textarea } from "@/_shared/components/ui/textarea"
 import { Label } from "@/_shared/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/_shared/components/ui/card"
 import type { ChecklistItem } from "../types/types"  
-import { useDevolucaoStore } from "../stores/slices"
+import { useDevolucaoStore } from "../stores/conferencia"
 import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
 import { useRouter } from "@tanstack/react-router"
 

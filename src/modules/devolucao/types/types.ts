@@ -21,24 +21,30 @@ export type ListaDemandasZodDtoItemStatus = typeof ListaDemandasZodDtoItemStatus
 
 //ConferenciaSlice
 export type ItemConferencia = {
-  id: number;  // opcional para inserção
+  id?: number;  // opcional para inserção
   demandaId: number;
-  tipo: string;
+  tipo?: string;
   sku: string;
-  descricao: string;
-  lote: string;
-  sif: string;
-  fabricacao: string;
-  quantidadeCaixas: number;
-  quantidadeUnidades: number;
+  descricao?: string;
+  lote?: string;
+  sif?: string;
+  fabricacao?: string;
+  quantidadeCaixas?: number;
+  quantidadeUnidades?: number;
 }
 
 export type ConferenciaSlice = {
+  descricaoSelecionada: string | null;
+  itemSelecionado: string | null;
+  loteSelecionado: string | null;
   conferencias: ItemConferencia[]
   syncStatus?: SyncStatus;
   addConferencia: (conferencia: ItemConferencia) => void
   updateConferencia: (id: number, conferencia: Partial<ItemConferencia>) => void
   removeConferencia: (id: number) => void
+  setDescricaoSelecionada: (descricao: string) => void
+  setItemSelecionado: (sku: string) => void
+  setLoteSelecionado: (lote: string) => void
 }
 
 //AnomaliaSlice
@@ -47,6 +53,8 @@ export type AnomaliaItem = {
   fotoBase64: string[];
   demandaId: number;
   sku: string;
+  descricao: string;
+  lote: string;
   natureza: string;
   tipo: string;
   causa: string;

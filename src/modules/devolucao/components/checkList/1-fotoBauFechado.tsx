@@ -6,7 +6,7 @@ import { Label } from "@/_shared/components/ui/label"
 import { AlertCircle, Camera, CheckCircle2, ArrowRight } from "lucide-react"
 import { Alert, AlertDescription } from "@/_shared/components/ui/alert"
 import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
-import { useDevolucaoStore } from "../../stores/slices"
+import { useDevolucaoStore } from "../../stores/conferencia"
 import { renderImagePreview } from "../../utils/renderImage"
 
 type FotoBauFechadoProps = {

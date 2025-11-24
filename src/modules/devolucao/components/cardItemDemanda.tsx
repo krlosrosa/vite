@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/_shared/components/ui/card";
 import { Badge } from "@/_shared/components/ui/badge";
 import { Calendar, Truck, Warehouse, User } from "lucide-react";
 import { cn } from "@/_shared/lib/utils";
-import { useDevolucaoStore } from "../stores/slices";
+import { useDevolucaoStore } from "../stores/conferencia";
 import type { DemandaItem } from "../types/types";
 import { useRouter } from "@tanstack/react-router";
 

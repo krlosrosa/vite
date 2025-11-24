@@ -7,6 +7,7 @@ import ValidacaoReentrega from "@/modules/devolucao/components/validacaoReentreg
 import ConferenciaCega from "@/modules/devolucao/components/conferenciaCega";
 import Anomalia from "@/modules/devolucao/components/anomalia";
 import FinalizacaoDemanda from "@/modules/devolucao/components/finalizar";
+import BottomMenu from "@/modules/devolucao/components/meuFlutuante";
 
 export default function ProcessoDevolucao() {
 
@@ -17,7 +18,7 @@ export default function ProcessoDevolucao() {
 
   return (
     <div>
-      <Tabs defaultValue="checklist" value={currentStep} onValueChange={setCurrentStep}>
+      <Tabs className="mb-24" defaultValue="checklist" value={currentStep} onValueChange={setCurrentStep}>
         <TabsList hidden={true}>
           <TabsTrigger value="checklist">Checklist</TabsTrigger>
           <TabsTrigger value="reentrega">Reentrega</TabsTrigger>
@@ -42,15 +43,16 @@ export default function ProcessoDevolucao() {
           <ValidacaoReentrega setStep={setCurrentStep} id={id} />
         </TabsContent>
         <TabsContent value="devolucao">
-          <ConferenciaCega />
-        </TabsContent>
+          <ConferenciaCega demandaId={Number(id)} />
+        </TabsContent>  
         <TabsContent value="anomalias">
-          <Anomalia />
+          <Anomalia demandaId={Number(id)} />
         </TabsContent>
         <TabsContent value="finalizacao">
           <FinalizacaoDemanda onFinalizarDemanda={() => {}} />
         </TabsContent>
       </Tabs>
+      <BottomMenu demandaId={Number(id)} />
     </div>
   )
 }

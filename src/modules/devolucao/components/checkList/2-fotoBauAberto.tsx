@@ -3,11 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/_sh
 import { Button } from "@/_shared/components/ui/button"
 import { Input } from "@/_shared/components/ui/input"
 import { Label } from "@/_shared/components/ui/label"
-import { AlertCircle, Camera, CheckCircle2, ArrowRight } from "lucide-react"
+import { AlertCircle, Camera, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react"
 import { Alert, AlertDescription } from "@/_shared/components/ui/alert"
 import { renderImagePreview } from "../../utils/renderImage"
 import { convertFileToBase64 } from "@/_shared/lib/convertBase64"
-import { useDevolucaoStore } from "../../stores/slices"
+import { useDevolucaoStore } from "../../stores/conferencia"
 
 type FotoBauAbertoProps = {
   setCurrentStep: (step: string) => void
@@ -77,7 +77,7 @@ export default function FotoBauAberto({ setCurrentStep, id }: FotoBauAbertoProps
           )}
         </div>
         {/* Botão de Ação */}
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row gap-2 justify-between">
 
           <Button
             onClick={() => setCurrentStep('fotoBauFechado')}
@@ -86,8 +86,8 @@ export default function FotoBauAberto({ setCurrentStep, id }: FotoBauAbertoProps
           >
             {hasPhoto ? (
               <>
-                Próximo Passo
-                <ArrowRight className="w-4 h-4" />
+                Próximo Anterior
+                <ArrowLeft className="w-4 h-4" />
               </>
             ) : (
               "Faça upload da foto para continuar"
