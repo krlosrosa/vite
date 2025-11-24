@@ -158,24 +158,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
     }
   };
 
-  const getTipoDivergenciaText = (tipo: string) => {
-    switch (tipo) {
-      case 'EXCESSO_FISICO': return 'Excesso no físico';
-      case 'FALTA_FISICO': return 'Falta no físico';
-      case 'PRODUTO_NAO_LISTADO': return 'Produto não listado';
-      default: return 'Divergência';
-    }
-  };
-
-  const getTipoDivergenciaColor = (tipo: string) => {
-    switch (tipo) {
-      case 'EXCESSO_FISICO': return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'FALTA_FISICO': return 'bg-red-100 text-red-800 border-red-200';
-      case 'PRODUTO_NAO_LISTADO': return 'bg-purple-100 text-purple-800 border-purple-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
   const handleFinalizar = async () => {
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -279,21 +261,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
                 </div>
               </div>
 
-              {/* Resumo da Comparação */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-3 bg-blue-50 rounded-lg">
-                  <Package className="h-6 w-6 text-blue-600 mx-auto mb-1" />
-                  <p className="text-lg font-bold text-blue-700">{diferencaMock.totalItensFisico}</p>
-                  <p className="text-xs text-blue-600">Itens no Físico</p>
-                </div>
-
-                <div className="text-center p-3 bg-purple-50 rounded-lg">
-                  <CheckSquare className="h-6 w-6 text-purple-600 mx-auto mb-1" />
-                  <p className="text-lg font-bold text-purple-700">{diferencaMock.totalItensContabil}</p>
-                  <p className="text-xs text-purple-600">Itens no Contábil</p>
-                </div>
-              </div>
-
               {/* Lista de Itens com Divergência */}
               {diferencaMock.temDiferenca && (
                 <div className="space-y-3">
@@ -314,12 +281,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
                             SKU: {item.sku}
                           </p>
                         </div>
-                        <Badge 
-                          variant="outline" 
-                          className={`text-xs whitespace-nowrap ${getTipoDivergenciaColor(item.tipoDivergencia)}`}
-                        >
-                          {getTipoDivergenciaText(item.tipoDivergencia)}
-                        </Badge>
                       </div>
                     ))}
                   </div>
@@ -335,44 +296,6 @@ export default function FinalizacaoDemanda({ onFinalizarDemanda }: Props) {
             </div>
           </CardContent>
         </Card>
-
-        {/* Card de Estatísticas */}
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle>Resumo da Conferência</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <Package className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-blue-700">{totalItensConferidos}</p>
-                <p className="text-sm text-blue-600">Itens Conferidos</p>
-              </div>
-
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <CheckSquare className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-green-700">{totalItensValidados}</p>
-                <p className="text-sm text-green-600">Itens Validados</p>
-                <p className="text-xs text-green-500">
-                  {Math.round((totalItensValidados / totalItensContabil) * 100)}%
-                </p>
-              </div>
-
-              <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <AlertTriangle className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-orange-700">{totalAnomalias}</p>
-                <p className="text-sm text-orange-600">Anomalias</p>
-              </div>
-
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <CheckCircle className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-purple-700">1</p>
-                <p className="text-sm text-purple-600">Checklist</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Card de Detalhes */}
         <Card>
           <CardHeader className="pb-4">
